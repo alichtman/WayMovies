@@ -35,41 +35,52 @@ struct MovieListResponse: Decodable {
     let results: [Movie]
 }
 
-let TMDB_apiKey: String = "0de424715a984f077e1ad542e6cfb656"
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UICollectionViewDataSource {
     
+    @IBOutlet weak var collectionView: UICollectionView!
     var movies = [Movie]()
-    
-    fileprivate func getMovieData() -> [Movie] {
-        let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(TMDB_apiKey)")
-        URLSession.shared.dataTask(with: url!) { (data, response, error) in
-            if error == nil {
-                print("No ERR")
-                do {
-                    print("Fetch")
-                    var movies: [Movie] = try JSONDecoder().decode(MovieListResponse.self, from: data!).results
-                    print(movies)
-                    return movies
-                } catch {
-                    print("Err")
-                }
-            }
-            }.resume()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        collectionView.dataSource = self
         
         // Get JSON data and drop it in the movies array
-        print("Getting data...")
-        getMovieData()
+        let TMDB_apiKey: String = "0de424715a984f077e1ad542e6cfb656"
+        let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(TMDB_apiKey)")
+        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+            if error == nil {
+                do {
+                    print("Fetch")
+                    self.movies = try JSONDecoder().decode(MovieListResponse.self, from: data!).results
+                    print(self.movies)
+                } catch {
+                    print("Err")
+                }
+                
+                DispatchQueue.main.async {
+                    self.collectionView?.reloadData()
+                    
+                }
+            }
+        }.resume()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(self.movies.count)
+        return self.movies.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as!CustomCollectionViewCell
+        
+        cell.titleLabel?.text = self.movies[indexPath.item].title
+        cell.ratingLabel?.text = String(self.movies[indexPath.item].popularity)
+        
+        print(self.movies[indexPath.item].title)
+        print(self.movies[indexPath.item].popularity)
+        return cell
     }
     
 }
