@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  WayMovies2
+//  WayMovies
 //
 //  Created by Aaron Lichtman on 6/1/18.
 //  Copyright © 2018 Aaron Lichtman. All rights reserved.

@@ -14,8 +14,8 @@
 		18851FB020C1DC51006977B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18851FAE20C1DC51006977B3 /* Main.storyboard */; };
 		18851FB220C1DC52006977B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18851FB120C1DC52006977B3 /* Assets.xcassets */; };
 		18851FB520C1DC52006977B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18851FB320C1DC52006977B3 /* LaunchScreen.storyboard */; };
-		18851FC020C1DC52006977B3 /* WayMovies2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18851FBF20C1DC52006977B3 /* WayMovies2Tests.swift */; };
-		18851FCB20C1DC52006977B3 /* WayMovies2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18851FCA20C1DC52006977B3 /* WayMovies2UITests.swift */; };
+		18851FC020C1DC52006977B3 /* WayMoviesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18851FBF20C1DC52006977B3 /* WayMoviesTests.swift */; };
+		18851FCB20C1DC52006977B3 /* WayMoviesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18851FCA20C1DC52006977B3 /* WayMoviesUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,32 +24,32 @@
 			containerPortal = 18851F9F20C1DC51006977B3 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 18851FA620C1DC51006977B3;
-			remoteInfo = WayMovies2;
+			remoteInfo = WayMovies;
 		};
 		18851FC720C1DC52006977B3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 18851F9F20C1DC51006977B3 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 18851FA620C1DC51006977B3;
-			remoteInfo = WayMovies2;
+			remoteInfo = WayMovies;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		187F332F20C20398005BD12D /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background.jpg; path = Assets.xcassets/background.jpg; sourceTree = "<group>"; };
 		187F333120C206F2005BD12D /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
-		18851FA720C1DC51006977B3 /* WayMovies2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WayMovies2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		18851FA720C1DC51006977B3 /* WayMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WayMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18851FAA20C1DC51006977B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18851FAC20C1DC51006977B3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		18851FAF20C1DC51006977B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		18851FB120C1DC52006977B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18851FB420C1DC52006977B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		18851FB620C1DC52006977B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		18851FBB20C1DC52006977B3 /* WayMovies2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WayMovies2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		18851FBF20C1DC52006977B3 /* WayMovies2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayMovies2Tests.swift; sourceTree = "<group>"; };
+		18851FBB20C1DC52006977B3 /* WayMoviesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WayMoviesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		18851FBF20C1DC52006977B3 /* WayMoviesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayMoviesTests.swift; sourceTree = "<group>"; };
 		18851FC120C1DC52006977B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		18851FC620C1DC52006977B3 /* WayMovies2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WayMovies2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		18851FCA20C1DC52006977B3 /* WayMovies2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayMovies2UITests.swift; sourceTree = "<group>"; };
+		18851FC620C1DC52006977B3 /* WayMoviesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WayMoviesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		18851FCA20C1DC52006977B3 /* WayMoviesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayMoviesUITests.swift; sourceTree = "<group>"; };
 		18851FCC20C1DC52006977B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,9 +81,9 @@
 		18851F9E20C1DC51006977B3 = {
 			isa = PBXGroup;
 			children = (
-				18851FA920C1DC51006977B3 /* WayMovies2 */,
-				18851FBE20C1DC52006977B3 /* WayMovies2Tests */,
-				18851FC920C1DC52006977B3 /* WayMovies2UITests */,
+				18851FA920C1DC51006977B3 /* WayMovies */,
+				18851FBE20C1DC52006977B3 /* WayMoviesTests */,
+				18851FC920C1DC52006977B3 /* WayMoviesUITests */,
 				18851FA820C1DC51006977B3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -91,14 +91,14 @@
 		18851FA820C1DC51006977B3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				18851FA720C1DC51006977B3 /* WayMovies2.app */,
-				18851FBB20C1DC52006977B3 /* WayMovies2Tests.xctest */,
-				18851FC620C1DC52006977B3 /* WayMovies2UITests.xctest */,
+				18851FA720C1DC51006977B3 /* WayMovies.app */,
+				18851FBB20C1DC52006977B3 /* WayMoviesTests.xctest */,
+				18851FC620C1DC52006977B3 /* WayMoviesUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		18851FA920C1DC51006977B3 /* WayMovies2 */ = {
+		18851FA920C1DC51006977B3 /* WayMovies */ = {
 			isa = PBXGroup;
 			children = (
 				18851FAA20C1DC51006977B3 /* AppDelegate.swift */,
@@ -110,33 +110,33 @@
 				18851FB620C1DC52006977B3 /* Info.plist */,
 				187F333120C206F2005BD12D /* CustomCollectionViewCell.swift */,
 			);
-			path = WayMovies2;
+			path = WayMovies;
 			sourceTree = "<group>";
 		};
-		18851FBE20C1DC52006977B3 /* WayMovies2Tests */ = {
+		18851FBE20C1DC52006977B3 /* WayMoviesTests */ = {
 			isa = PBXGroup;
 			children = (
-				18851FBF20C1DC52006977B3 /* WayMovies2Tests.swift */,
+				18851FBF20C1DC52006977B3 /* WayMoviesTests.swift */,
 				18851FC120C1DC52006977B3 /* Info.plist */,
 			);
-			path = WayMovies2Tests;
+			path = WayMoviesTests;
 			sourceTree = "<group>";
 		};
-		18851FC920C1DC52006977B3 /* WayMovies2UITests */ = {
+		18851FC920C1DC52006977B3 /* WayMoviesUITests */ = {
 			isa = PBXGroup;
 			children = (
-				18851FCA20C1DC52006977B3 /* WayMovies2UITests.swift */,
+				18851FCA20C1DC52006977B3 /* WayMoviesUITests.swift */,
 				18851FCC20C1DC52006977B3 /* Info.plist */,
 			);
-			path = WayMovies2UITests;
+			path = WayMoviesUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		18851FA620C1DC51006977B3 /* WayMovies2 */ = {
+		18851FA620C1DC51006977B3 /* WayMovies */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 18851FCF20C1DC52006977B3 /* Build configuration list for PBXNativeTarget "WayMovies2" */;
+			buildConfigurationList = 18851FCF20C1DC52006977B3 /* Build configuration list for PBXNativeTarget "WayMovies" */;
 			buildPhases = (
 				18851FA320C1DC51006977B3 /* Sources */,
 				18851FA420C1DC51006977B3 /* Frameworks */,
@@ -146,14 +146,14 @@
 			);
 			dependencies = (
 			);
-			name = WayMovies2;
-			productName = WayMovies2;
-			productReference = 18851FA720C1DC51006977B3 /* WayMovies2.app */;
+			name = WayMovies;
+			productName = WayMovies;
+			productReference = 18851FA720C1DC51006977B3 /* WayMovies.app */;
 			productType = "com.apple.product-type.application";
 		};
-		18851FBA20C1DC52006977B3 /* WayMovies2Tests */ = {
+		18851FBA20C1DC52006977B3 /* WayMoviesTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 18851FD220C1DC52006977B3 /* Build configuration list for PBXNativeTarget "WayMovies2Tests" */;
+			buildConfigurationList = 18851FD220C1DC52006977B3 /* Build configuration list for PBXNativeTarget "WayMoviesTests" */;
 			buildPhases = (
 				18851FB720C1DC52006977B3 /* Sources */,
 				18851FB820C1DC52006977B3 /* Frameworks */,
@@ -164,14 +164,14 @@
 			dependencies = (
 				18851FBD20C1DC52006977B3 /* PBXTargetDependency */,
 			);
-			name = WayMovies2Tests;
-			productName = WayMovies2Tests;
-			productReference = 18851FBB20C1DC52006977B3 /* WayMovies2Tests.xctest */;
+			name = WayMoviesTests;
+			productName = WayMoviesTests;
+			productReference = 18851FBB20C1DC52006977B3 /* WayMoviesTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		18851FC520C1DC52006977B3 /* WayMovies2UITests */ = {
+		18851FC520C1DC52006977B3 /* WayMoviesUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 18851FD520C1DC52006977B3 /* Build configuration list for PBXNativeTarget "WayMovies2UITests" */;
+			buildConfigurationList = 18851FD520C1DC52006977B3 /* Build configuration list for PBXNativeTarget "WayMoviesUITests" */;
 			buildPhases = (
 				18851FC220C1DC52006977B3 /* Sources */,
 				18851FC320C1DC52006977B3 /* Frameworks */,
@@ -182,9 +182,9 @@
 			dependencies = (
 				18851FC820C1DC52006977B3 /* PBXTargetDependency */,
 			);
-			name = WayMovies2UITests;
-			productName = WayMovies2UITests;
-			productReference = 18851FC620C1DC52006977B3 /* WayMovies2UITests.xctest */;
+			name = WayMoviesUITests;
+			productName = WayMoviesUITests;
+			productReference = 18851FC620C1DC52006977B3 /* WayMoviesUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -210,7 +210,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 18851FA220C1DC51006977B3 /* Build configuration list for PBXProject "WayMovies2" */;
+			buildConfigurationList = 18851FA220C1DC51006977B3 /* Build configuration list for PBXProject "WayMovies" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -223,9 +223,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				18851FA620C1DC51006977B3 /* WayMovies2 */,
-				18851FBA20C1DC52006977B3 /* WayMovies2Tests */,
-				18851FC520C1DC52006977B3 /* WayMovies2UITests */,
+				18851FA620C1DC51006977B3 /* WayMovies */,
+				18851FBA20C1DC52006977B3 /* WayMoviesTests */,
+				18851FC520C1DC52006977B3 /* WayMoviesUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -273,7 +273,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18851FC020C1DC52006977B3 /* WayMovies2Tests.swift in Sources */,
+				18851FC020C1DC52006977B3 /* WayMoviesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,7 +281,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18851FCB20C1DC52006977B3 /* WayMovies2UITests.swift in Sources */,
+				18851FCB20C1DC52006977B3 /* WayMoviesUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,12 +290,12 @@
 /* Begin PBXTargetDependency section */
 		18851FBD20C1DC52006977B3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 18851FA620C1DC51006977B3 /* WayMovies2 */;
+			target = 18851FA620C1DC51006977B3 /* WayMovies */;
 			targetProxy = 18851FBC20C1DC52006977B3 /* PBXContainerItemProxy */;
 		};
 		18851FC820C1DC52006977B3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 18851FA620C1DC51006977B3 /* WayMovies2 */;
+			target = 18851FA620C1DC51006977B3 /* WayMovies */;
 			targetProxy = 18851FC720C1DC52006977B3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -439,12 +439,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = WayMovies2/Info.plist;
+				INFOPLIST_FILE = WayMovies/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = alichtman.WayMovies2;
+				PRODUCT_BUNDLE_IDENTIFIER = alichtman.WayMovies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -456,12 +456,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = WayMovies2/Info.plist;
+				INFOPLIST_FILE = WayMovies/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = alichtman.WayMovies2;
+				PRODUCT_BUNDLE_IDENTIFIER = alichtman.WayMovies;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -474,17 +474,17 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = WayMovies2Tests/Info.plist;
+				INFOPLIST_FILE = WayMoviesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = alichtman.WayMovies2Tests;
+				PRODUCT_BUNDLE_IDENTIFIER = alichtman.WayMoviesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WayMovies2.app/WayMovies2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WayMovies.app/WayMovies";
 			};
 			name = Debug;
 		};
@@ -494,17 +494,17 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = WayMovies2Tests/Info.plist;
+				INFOPLIST_FILE = WayMoviesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = alichtman.WayMovies2Tests;
+				PRODUCT_BUNDLE_IDENTIFIER = alichtman.WayMoviesTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WayMovies2.app/WayMovies2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WayMovies.app/WayMovies";
 			};
 			name = Release;
 		};
@@ -513,17 +513,17 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = WayMovies2UITests/Info.plist;
+				INFOPLIST_FILE = WayMoviesUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = alichtman.WayMovies2UITests;
+				PRODUCT_BUNDLE_IDENTIFIER = alichtman.WayMoviesUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = WayMovies2;
+				TEST_TARGET_NAME = WayMovies;
 			};
 			name = Debug;
 		};
@@ -532,24 +532,24 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = WayMovies2UITests/Info.plist;
+				INFOPLIST_FILE = WayMoviesUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = alichtman.WayMovies2UITests;
+				PRODUCT_BUNDLE_IDENTIFIER = alichtman.WayMoviesUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = WayMovies2;
+				TEST_TARGET_NAME = WayMovies;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		18851FA220C1DC51006977B3 /* Build configuration list for PBXProject "WayMovies2" */ = {
+		18851FA220C1DC51006977B3 /* Build configuration list for PBXProject "WayMovies" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				18851FCD20C1DC52006977B3 /* Debug */,
@@ -558,7 +558,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		18851FCF20C1DC52006977B3 /* Build configuration list for PBXNativeTarget "WayMovies2" */ = {
+		18851FCF20C1DC52006977B3 /* Build configuration list for PBXNativeTarget "WayMovies" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				18851FD020C1DC52006977B3 /* Debug */,
@@ -567,7 +567,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		18851FD220C1DC52006977B3 /* Build configuration list for PBXNativeTarget "WayMovies2Tests" */ = {
+		18851FD220C1DC52006977B3 /* Build configuration list for PBXNativeTarget "WayMoviesTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				18851FD320C1DC52006977B3 /* Debug */,
@@ -576,7 +576,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		18851FD520C1DC52006977B3 /* Build configuration list for PBXNativeTarget "WayMovies2UITests" */ = {
+		18851FD520C1DC52006977B3 /* Build configuration list for PBXNativeTarget "WayMoviesUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				18851FD620C1DC52006977B3 /* Debug */,
