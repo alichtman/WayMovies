@@ -35,7 +35,7 @@ struct MovieListResponse: Decodable {
     let results: [Movie]
 }
 
-// TODO: Add image caching
+// TODO: Add image caching -> http://jamesonquave.com/blog/developing-ios-apps-using-swift-part-5-async-image-loading-and-caching/
 // TODO: Refactor API requests into well-organized methods
 // TODO: Figure out why images aren't populating
 // TODO: Figure out constraints for customCell
