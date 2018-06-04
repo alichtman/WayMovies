@@ -29,6 +29,7 @@ struct Movie: Decodable {
     let popularity: Double
     let poster_path: String
     let backdrop_path: String
+    let release_date: String
 }
 
 struct MovieListResponse: Decodable {
@@ -86,13 +87,22 @@ class ViewController: UIViewController, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as!CustomCollectionViewCell
 
-        // Set movie title and rating
+        // Set movie title and release date
         cell.titleLabel?.text = self.movies[indexPath.item].title
-        cell.ratingLabel?.text = String(self.movies[indexPath.item].popularity)
+        
+        let releaseDateUnformatted = String(self.movies[indexPath.item].release_date)
+//        // Convert Date to MM/DD/YYYY
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "MM-dd-yyyy"
+//        guard let releaseDate = dateFormatter.date(from: releaseDateUnformatted) else {
+//            return UICollectionViewCell()
+//        }
+//        cell.dateLabel?.text = dateFormatter.string(from: releaseDate)
+        cell.dateLabel?.text = releaseDateUnformatted
 
         // Get movie image
         let baseURL = "http://image.tmdb.org/t/p/"
-        let width = "w100"
+        let width = "w500"
         let posterPath = String(self.movies[indexPath.item].poster_path)
         let downloadURL = URL(string: baseURL + width + posterPath)
 
@@ -103,6 +113,11 @@ class ViewController: UIViewController, UICollectionViewDataSource {
             print("Download Finished: " + (response?.suggestedFilename)!)
             DispatchQueue.main.async() {
                 cell.movieImage.image = UIImage(data: data)
+                cell.movieImage.layer.borderWidth = 4
+                cell.movieImage.layer.masksToBounds = false
+                cell.movieImage.layer.borderColor = UIColor.white.cgColor
+                cell.movieImage.layer.cornerRadius = cell.movieImage.frame.height / 2
+                cell.movieImage.clipsToBounds = true
             }
         }
 
@@ -113,5 +128,6 @@ class ViewController: UIViewController, UICollectionViewDataSource {
         print(self.movies[indexPath.item].popularity)
         return cell
     }
+
 
 }
