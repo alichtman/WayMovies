@@ -30,6 +30,7 @@ struct Movie: Decodable {
     let poster_path: String
     let backdrop_path: String
     let release_date: String
+    let vote_average: Double
 }
 
 struct MovieListResponse: Decodable {
@@ -89,8 +90,8 @@ class ViewController: UIViewController, UICollectionViewDataSource {
 
         // Set movie title and release date
         cell.titleLabel?.text = self.movies[indexPath.item].title
-        
-        let releaseDateUnformatted = String(self.movies[indexPath.item].release_date)
+        cell.ratingLabel?.text = String(self.movies[indexPath.item].vote_average)
+//        let releaseDateUnformatted = String(self.movies[indexPath.item].release_date)
 //        // Convert Date to MM/DD/YYYY
 //        let dateFormatter = DateFormatter()
 //        dateFormatter.dateFormat = "MM-dd-yyyy"
@@ -98,7 +99,6 @@ class ViewController: UIViewController, UICollectionViewDataSource {
 //            return UICollectionViewCell()
 //        }
 //        cell.dateLabel?.text = dateFormatter.string(from: releaseDate)
-        cell.dateLabel?.text = releaseDateUnformatted
 
         // Get movie image
         let baseURL = "http://image.tmdb.org/t/p/"
