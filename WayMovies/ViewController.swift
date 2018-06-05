@@ -43,6 +43,8 @@ struct MovieListResponse: Decodable {
 // TODO: Figure out constraints for customCell
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    var yOffset: CGFloat = 0
 
     @IBOutlet weak var collectionView: UICollectionView!
     var movies = [Movie]()
@@ -57,6 +59,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
 
         collectionView.dataSource = self
+        collectionView.delegate = self
 
         // Get JSON data and drop it in the movies array
         let TMDB_apiKey: String = "0de424715a984f077e1ad542e6cfb656"
@@ -84,12 +87,33 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         return self.movies.count
     }
     
-    /// https://stackoverflow.com/a/46874935/8740440
-//    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        cell.alpha = 0
-//        UIView.animate(withDuration: 0.8) {
-//            cell.alpha = 1
+    ///
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let collectionViewController = self.collectionView else { return }
+        collectionViewController.preloadPagination(in: collectionView, withCell: cell, forIndexPath: indexPath)
+    }
+    
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//
+//        let yCurr: CGFloat = self.collectionView.contentOffset.y
+//
+//        collectionView.transform = CGAffineTransform(translationX: 0, y: yCurr);
+//
+//        for view in collectionView.subviews {
+//
+//            if view is UICollectionViewCell {
+//
+//                let index: Int = 1
+//                let delay: Double = Double(index) * 0.02;
+//                let duration: Double = 1.0 - delay;
+//
+//                UIScrollView.animate(withDuration: duration, delay: delay, usingSpringWithDamping: 0.1, initialSpringVelocity: 0.2, options: [UIViewAnimationOptions.curveEaseInOut, UIViewAnimationOptions.allowUserInteraction], animations: {
+//                    view.transform =  view.transform.translatedBy(x: 0, y: -1 * (yCurr - self.yOffset))
+//                }, completion: nil)
+//            }
 //        }
+//
+//        yOffset = yCurr
 //    }
 
 
