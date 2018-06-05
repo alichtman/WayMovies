@@ -16,6 +16,7 @@
 		18851FB520C1DC52006977B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18851FB320C1DC52006977B3 /* LaunchScreen.storyboard */; };
 		18851FC020C1DC52006977B3 /* WayMoviesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18851FBF20C1DC52006977B3 /* WayMoviesTests.swift */; };
 		18851FCB20C1DC52006977B3 /* WayMoviesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18851FCA20C1DC52006977B3 /* WayMoviesUITests.swift */; };
+		18CEDE3720C6248F0038F94F /* background2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 18CEDE3620C6248F0038F94F /* background2.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		18851FC620C1DC52006977B3 /* WayMoviesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WayMoviesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18851FCA20C1DC52006977B3 /* WayMoviesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayMoviesUITests.swift; sourceTree = "<group>"; };
 		18851FCC20C1DC52006977B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18CEDE3620C6248F0038F94F /* background2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background2.jpg; path = Assets.xcassets/background2.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				18851FAE20C1DC51006977B3 /* Main.storyboard */,
 				18851FB120C1DC52006977B3 /* Assets.xcassets */,
 				187F332F20C20398005BD12D /* background.jpg */,
+				18CEDE3620C6248F0038F94F /* background2.jpg */,
 				18851FB320C1DC52006977B3 /* LaunchScreen.storyboard */,
 				18851FB620C1DC52006977B3 /* Info.plist */,
 				187F333120C206F2005BD12D /* CustomCollectionViewCell.swift */,
@@ -237,6 +240,7 @@
 			files = (
 				18851FB520C1DC52006977B3 /* LaunchScreen.storyboard in Resources */,
 				187F333020C20399005BD12D /* background.jpg in Resources */,
+				18CEDE3720C6248F0038F94F /* background2.jpg in Resources */,
 				18851FB220C1DC52006977B3 /* Assets.xcassets in Resources */,
 				18851FB020C1DC51006977B3 /* Main.storyboard in Resources */,
 			);

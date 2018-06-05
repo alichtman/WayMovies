@@ -42,7 +42,7 @@ struct MovieListResponse: Decodable {
 // TODO: Figure out why images aren't populating
 // TODO: Figure out constraints for customCell
 
-class ViewController: UIViewController, UICollectionViewDataSource {
+class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
     @IBOutlet weak var collectionView: UICollectionView!
     var movies = [Movie]()
@@ -83,6 +83,14 @@ class ViewController: UIViewController, UICollectionViewDataSource {
         print(self.movies.count)
         return self.movies.count
     }
+    
+    /// https://stackoverflow.com/a/46874935/8740440
+//    override func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        cell.alpha = 0
+//        UIView.animate(withDuration: 0.8) {
+//            cell.alpha = 1
+//        }
+//    }
 
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
