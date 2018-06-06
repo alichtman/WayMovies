@@ -79,6 +79,12 @@
                                 </constraints>
                                 <textInputTraits key="textInputTraits" keyboardAppearance="light"/>
                             </searchBar>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tmdb-logo-dark" translatesAutoresizingMaskIntoConstraints="NO" id="sjI-bn-yjm">
+                                <rect key="frame" x="109.5" y="129" width="156" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="loR-g5-lvi"/>
+                                </constraints>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search for Actors, Movies and TV Shows" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OaQ-ZZ-YB6">
                                 <rect key="frame" x="89" y="273" width="197" height="46"/>
                                 <rect key="contentStretch" x="0.0" y="0.10000000000000001" width="1" height="1"/>
@@ -89,34 +95,30 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GIu-S2-RDP">
-                                <rect key="frame" x="117" y="376" width="141" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GIu-S2-RDP">
+                                <rect key="frame" x="117" y="412" width="141" height="30"/>
                                 <state key="normal" title="I just want to browse"/>
                                 <connections>
                                     <action selector="goToBrowse:" destination="4lv-Uy-bzU" eventType="touchUpInside" id="UBl-n5-OCc"/>
                                     <segue destination="BYZ-38-t0r" kind="show" id="2Lr-ke-l7p"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tmdb-logo-dark" translatesAutoresizingMaskIntoConstraints="NO" id="sjI-bn-yjm">
-                                <rect key="frame" x="109.5" y="129" width="156" height="120"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="loR-g5-lvi"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="PHX-24-vt9" firstAttribute="top" secondItem="OaQ-ZZ-YB6" secondAttribute="bottom" constant="22" id="7xo-4K-pXt"/>
                             <constraint firstItem="OaQ-ZZ-YB6" firstAttribute="centerX" secondItem="OKj-pZ-V1j" secondAttribute="centerX" id="U7O-wJ-50z"/>
                             <constraint firstItem="sjI-bn-yjm" firstAttribute="top" secondItem="ulk-V9-w23" secondAttribute="top" constant="65" id="cFd-2R-add"/>
+                            <constraint firstItem="GIu-S2-RDP" firstAttribute="centerX" secondItem="ulk-V9-w23" secondAttribute="centerX" id="iT5-Mj-eUg"/>
                             <constraint firstItem="PHX-24-vt9" firstAttribute="centerX" secondItem="OKj-pZ-V1j" secondAttribute="centerX" id="kfZ-fz-Eta"/>
                             <constraint firstItem="sjI-bn-yjm" firstAttribute="centerX" secondItem="OKj-pZ-V1j" secondAttribute="centerX" id="rpF-gI-OR5"/>
                             <constraint firstItem="OaQ-ZZ-YB6" firstAttribute="top" secondItem="sjI-bn-yjm" secondAttribute="bottom" constant="24" id="wWj-EY-WP7"/>
+                            <constraint firstItem="GIu-S2-RDP" firstAttribute="top" secondItem="PHX-24-vt9" secondAttribute="bottom" constant="15" id="zz4-LH-Mcx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ulk-V9-w23"/>
                     </view>
                     <navigationItem key="navigationItem" id="9nt-im-1w2"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hft-cE-bE4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

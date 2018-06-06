@@ -121,17 +121,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "searchResultCell", for: indexPath) as! SearchResultCell
 
-        // Set movie title and release date
-        cell.titleLabel?.text = self.movies[indexPath.item].title
+        // Set movie title and category tag
         cell.categoryTag?.text = String(self.movies[indexPath.item].vote_average)
-//        let releaseDateUnformatted = String(self.movies[indexPath.item].release_date)
-//        // Convert Date to MM/DD/YYYY
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "MM-dd-yyyy"
-//        guard let releaseDate = dateFormatter.date(from: releaseDateUnformatted) else {
-//            return UICollectionViewCell()
-//        }
-//        cell.dateLabel?.text = dateFormatter.string(from: releaseDate)
+        cell.titleLabel?.text = self.movies[indexPath.item].title
 
         // Get movie image
         let baseURL = "http://image.tmdb.org/t/p/"
@@ -149,7 +141,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 cell.movieImage.layer.borderWidth = 4
                 cell.movieImage.layer.masksToBounds = false
                 cell.movieImage.layer.borderColor = UIColor.white.cgColor
-                cell.movieImage.layer.cornerRadius = cell.movieImage.frame.height / 2
+                cell.movieImage.layer.cornerRadius = 5
                 cell.movieImage.clipsToBounds = true
             }
         }

@@ -14,7 +14,15 @@ class IntroViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Create background gradient
         createGradientLayer()
+        // Hide navigation controller
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.isNavigationBarHidden = false
     }
 
     /// Create gradient for homescreen and push it to the back
