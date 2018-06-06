@@ -16,6 +16,10 @@ class IntroViewController: UIViewController {
         super.viewDidLoad()
         // Create background gradient
         createGradientLayer()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         // Hide navigation controller
         self.navigationController?.isNavigationBarHidden = true
     }
