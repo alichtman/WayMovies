@@ -55,6 +55,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             }.resume()
     }
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -84,38 +85,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }.resume()
     }
 
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print(self.movies.count)
         return self.movies.count
     }
     
-    ///
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        guard let collectionViewController = self.collectionView else { return }
-    }
     
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//
-//        let yCurr: CGFloat = self.collectionView.contentOffset.y
-//
-//        collectionView.transform = CGAffineTransform(translationX: 0, y: yCurr);
-//
-//        for view in collectionView.subviews {
-//
-//            if view is UICollectionViewCell {
-//
-//                let index: Int = 1
-//                let delay: Double = Double(index) * 0.02;
-//                let duration: Double = 1.0 - delay;
-//
-//                UIScrollView.animate(withDuration: duration, delay: delay, usingSpringWithDamping: 0.1, initialSpringVelocity: 0.2, options: [UIViewAnimationOptions.curveEaseInOut, UIViewAnimationOptions.allowUserInteraction], animations: {
-//                    view.transform =  view.transform.translatedBy(x: 0, y: -1 * (yCurr - self.yOffset))
-//                }, completion: nil)
-//            }
-//        }
-//
-//        yOffset = yCurr
-//    }
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { }
 
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -141,14 +118,12 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 cell.movieImage.layer.borderWidth = 4
                 cell.movieImage.layer.masksToBounds = false
                 cell.movieImage.layer.borderColor = UIColor.white.cgColor
-                cell.movieImage.layer.cornerRadius = 5
+                cell.movieImage.layer.cornerRadius = (cell.movieImage.image?.size.height)! / 28
                 cell.movieImage.clipsToBounds = true
             }
         }
 
         // EXAMPLE URL: http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
-
-
         print(self.movies[indexPath.item].title)
         print(self.movies[indexPath.item].popularity)
         return cell
