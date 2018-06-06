@@ -60,6 +60,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.register(UINib(nibName: "SearchResultCell", bundle: nil), forCellWithReuseIdentifier: "searchResultCell")
+        
 
         // Get JSON data and drop it in the movies array
         let TMDB_apiKey: String = "0de424715a984f077e1ad542e6cfb656"
@@ -89,8 +91,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     ///
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard let collectionViewController = self.collectionView else { return }
-        collectionViewController.preloadPagination(in: collectionView, withCell: cell, forIndexPath: indexPath)
+//        guard let collectionViewController = self.collectionView else { return }
     }
     
 //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -118,11 +119,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
 
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as!CustomCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "searchResultCell", for: indexPath) as! SearchResultCell
 
         // Set movie title and release date
         cell.titleLabel?.text = self.movies[indexPath.item].title
-        cell.ratingLabel?.text = String(self.movies[indexPath.item].vote_average)
+        cell.categoryTag?.text = String(self.movies[indexPath.item].vote_average)
 //        let releaseDateUnformatted = String(self.movies[indexPath.item].release_date)
 //        // Convert Date to MM/DD/YYYY
 //        let dateFormatter = DateFormatter()

@@ -8,9 +8,9 @@
 
 import UIKit
 
-class CustomCollectionViewCell: UICollectionViewCell {
+class SearchResultCell: UICollectionViewCell {
 
     @IBOutlet weak var movieImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var categoryTag: UILabel!
 }
