@@ -18,41 +18,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background2.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="fWI-Gv-ZP9" userLabel="background.jpg">
-                                <rect key="frame" x="-188.5" y="64" width="752" height="603"/>
-                                <accessibility key="accessibilityConfiguration" identifier="Background"/>
-                            </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qBf-Of-BBB">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="0.25998569542253519" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ONl-P3-LF4">
-                                    <size key="itemSize" width="309" height="199"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="5" sectionInsetReference="safeArea" id="ONl-P3-LF4">
+                                    <size key="itemSize" width="375" height="140"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="30" minY="15" maxX="30" maxY="10"/>
+                                    <inset key="sectionInset" minX="0.0" minY="15" maxX="0.0" maxY="10"/>
                                 </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="searchResults" id="3x6-1a-D4p" customClass="CustomCollectionViewCell" customModule="WayMovies" customModuleProvider="target">
-                                        <rect key="frame" x="33" y="15" width="309" height="121"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="309" height="121"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </view>
-                                        <size key="customSize" width="309" height="121"/>
-                                    </collectionViewCell>
-                                </cells>
+                                <cells/>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="fWI-Gv-ZP9" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="CQs-ct-jbI"/>
-                            <constraint firstItem="fWI-Gv-ZP9" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="DOP-FI-efJ"/>
-                            <constraint firstItem="fWI-Gv-ZP9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="IaB-fj-jd9"/>
-                            <constraint firstItem="qBf-Of-BBB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="K35-EZ-Qdl"/>
-                            <constraint firstItem="qBf-Of-BBB" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="M7S-tc-hOF"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qBf-Of-BBB" secondAttribute="bottom" id="Wyc-ar-Yoz"/>
-                            <constraint firstItem="qBf-Of-BBB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Ygw-vS-lDh"/>
+                            <constraint firstItem="qBf-Of-BBB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="IrA-Yd-ReI"/>
+                            <constraint firstItem="qBf-Of-BBB" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="VSo-C8-3Kh"/>
+                            <constraint firstItem="qBf-Of-BBB" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="YJ4-wz-DRn"/>
+                            <constraint firstItem="qBf-Of-BBB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="fgy-aC-KXM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -62,7 +45,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2490" y="126"/>
+            <point key="canvasLocation" x="2488.8000000000002" y="125.4872563718141"/>
         </scene>
         <!--Intro View Controller-->
         <scene sceneID="95b-Z5-1TO">
@@ -144,7 +127,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="background2.jpg" width="752" height="969"/>
         <image name="tmdb-logo-dark" width="156" height="138"/>
     </resources>
 </document>
