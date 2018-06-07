@@ -131,10 +131,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             print("Download Finished: " + (response?.suggestedFilename)!)
             DispatchQueue.main.async() {
                 cell.movieImage.image = UIImage(data: data)
-                cell.movieImage.layer.borderWidth = 4
-                cell.movieImage.layer.masksToBounds = false
-                cell.movieImage.layer.borderColor = UIColor.white.cgColor
-                cell.movieImage.layer.cornerRadius = 0
+                cell.movieImage.layer.cornerRadius = 30
                 cell.movieImage.clipsToBounds = true
             }
         }
