@@ -24,28 +24,32 @@ import Cosmos
  **/
 
 struct Movie: Decodable {
-    let id: Int
     let title: String
     let overview: String
     let popularity: Double
-    let poster_path: String
     let backdrop_path: String
     let release_date: String
     let vote_average: Double
+    var imageURL: URL {
+        let baseURL = "http://image.tmdb.org/t/p/"
+        let width = "w500"
+        return URL(string: baseURL + width + backdrop_path)!
+    }
 }
 
 struct MovieListResponse: Decodable {
     let results: [Movie]
 }
 
-// TODO: Add image caching -> http://jamesonquave.com/blog/developing-ios-apps-using-swift-part-5-async-image-loading-and-caching/
-// TODO: Refactor API requests into well-organized methods
-// TODO: Figure out why images aren't populating
-// TODO: Figure out constraints for customCell
+struct MovieDetails {
+    let movie: Movie
+    let image: UIImage
+}
+
 
 class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    var yOffset: CGFloat = 0
+    var imgCache : NSCache<NSURL, UIImage> = NSCache()
 
     @IBOutlet weak var collectionView: UICollectionView!
     var movies = [Movie]()
@@ -63,7 +67,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(UINib(nibName: "SearchResultCell", bundle: nil), forCellWithReuseIdentifier: "searchResultCell")
-        
 
         // Get JSON data and drop it in the movies array
         let TMDB_apiKey: String = "0de424715a984f077e1ad542e6cfb656"
@@ -71,29 +74,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         URLSession.shared.dataTask(with: url!) { (data, response, error) in
             if error == nil {
                 do {
-                    print("Fetch")
+                    print("API Request for Movie Data")
                     self.movies = try JSONDecoder().decode(MovieListResponse.self, from: data!).results
                     print(self.movies)
                 } catch {
                     print("Err")
                 }
-
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
-
                 }
             }
         }.resume()
     }
 
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(self.movies.count)
-        return self.movies.count
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { }
     
     /// Rescale scores from a scale of 0 -> 10 to 0 -> 5
     func rescaleRating(rating: Double) -> Double {
@@ -101,14 +94,38 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         print("RESCALED: \(rescale) from \(rating)")
         return rescale
     }
+    
 
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(self.movies.count)
+        return self.movies.count
+    }
+    
+    // TODO: Animation for cell about to come in.
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("TAPPED ITEM: \(indexPath.item)")
+        
+        // Create a new view controller
+        
+        let movieJSON = movies[indexPath.item]
+        let movieImage = imgCache.object(forKey: movieJSON.imageURL as NSURL)
+        let detailViewController = DetailViewController(movieDetail: MovieDetails(movie: movieJSON, image: movieImage!))
+        detailViewController.providesPresentationContextTransitionStyle = true
+        detailViewController.definesPresentationContext = true
+        detailViewController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        self.present(detailViewController, animated: true, completion: nil)
+    }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "searchResultCell", for: indexPath) as! SearchResultCell
 
+        let movie = self.movies[indexPath.item]
+        
         // Set movie title and category tag
-        cell.categoryTag?.text = String(self.movies[indexPath.item].vote_average)
-        cell.titleLabel?.text = self.movies[indexPath.item].title
+        cell.categoryTag?.text = String(movie.popularity)
+        cell.titleLabel?.text = movie.title
         
         // Set stars in cosmosView with scaled rating
         guard let cosmosView = cell.cosmosView else {
@@ -116,31 +133,32 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         cosmosView.settings.updateOnTouch = false
         cosmosView.settings.fillMode = .half
-        cosmosView.rating = rescaleRating(rating: self.movies[indexPath.item].vote_average)
-
+        cosmosView.rating = rescaleRating(rating: movie.vote_average)
+        
         // Get movie image
-        let baseURL = "http://image.tmdb.org/t/p/"
-        let width = "w500"
-        let posterPath = String(self.movies[indexPath.item].poster_path)
-        let downloadURL = URL(string: baseURL + width + posterPath)
-
-        cell.movieImage?.contentMode = .scaleAspectFill
-
-        getDataFromUrl(url: downloadURL!) { data, response, error in
-            guard let data = data, error == nil else { return }
-            print("Download Finished: " + (response?.suggestedFilename)!)
-            DispatchQueue.main.async() {
-                cell.movieImage.image = UIImage(data: data)
-                cell.movieImage.layer.cornerRadius = 30
-                cell.movieImage.clipsToBounds = true
+        // EXAMPLE URL: http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
+        let movieImage = cell.movieImage
+        movieImage?.contentMode = .scaleAspectFill
+        movieImage?.layer.cornerRadius = 30
+        movieImage?.clipsToBounds = true
+        
+        // If movie image in cache, use it
+        if let poster = imgCache.object(forKey: movie.imageURL as NSURL) {
+            movieImage?.image = poster
+        } else { // Else, make API request for movie image and update cache
+            getDataFromUrl(url: movie.imageURL) { data, response, error in
+                guard let data = data, error == nil else { return }
+                print("Download Finished: " + (response?.suggestedFilename)!)
+                DispatchQueue.main.async() {
+                    let fetchedImg = UIImage(data: data)
+                    movieImage?.image = fetchedImg
+                    self.imgCache.setObject(fetchedImg!, forKey: movie.imageURL as NSURL)
+                }
             }
         }
 
-        // EXAMPLE URL: http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
-        print(self.movies[indexPath.item].title)
-        print(self.movies[indexPath.item].popularity)
+        print(movie.title)
+        print(movie.popularity)
         return cell
     }
-
-
 }

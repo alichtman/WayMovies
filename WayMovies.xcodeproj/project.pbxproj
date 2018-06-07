@@ -17,6 +17,7 @@
 		18851FB520C1DC52006977B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18851FB320C1DC52006977B3 /* LaunchScreen.storyboard */; };
 		18851FC020C1DC52006977B3 /* WayMoviesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18851FBF20C1DC52006977B3 /* WayMoviesTests.swift */; };
 		18851FCB20C1DC52006977B3 /* WayMoviesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18851FCA20C1DC52006977B3 /* WayMoviesUITests.swift */; };
+		1891526620C98C4500F6608D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1891526520C98C4500F6608D /* DetailViewController.swift */; };
 		189A012720C8E78000122D82 /* Cosmos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189A012620C8E78000122D82 /* Cosmos.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		18851FC620C1DC52006977B3 /* WayMoviesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WayMoviesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18851FCA20C1DC52006977B3 /* WayMoviesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WayMoviesUITests.swift; sourceTree = "<group>"; };
 		18851FCC20C1DC52006977B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1891526520C98C4500F6608D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		189A012620C8E78000122D82 /* Cosmos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cosmos.framework; path = Carthage/Build/iOS/Cosmos.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -128,6 +130,7 @@
 				187F333120C206F2005BD12D /* SearchResultCell.swift */,
 				18851FAC20C1DC51006977B3 /* SearchResultsViewController.swift */,
 				180DF4AE20C845B200654E87 /* IntroViewController.swift */,
+				1891526520C98C4500F6608D /* DetailViewController.swift */,
 			);
 			path = WayMovies;
 			sourceTree = "<group>";
@@ -311,6 +314,7 @@
 			files = (
 				18851FAD20C1DC51006977B3 /* SearchResultsViewController.swift in Sources */,
 				187F333220C206F2005BD12D /* SearchResultCell.swift in Sources */,
+				1891526620C98C4500F6608D /* DetailViewController.swift in Sources */,
 				18851FAB20C1DC51006977B3 /* AppDelegate.swift in Sources */,
 				180DF4AF20C845B200654E87 /* IntroViewController.swift in Sources */,
 			);
