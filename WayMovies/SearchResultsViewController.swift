@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Cosmos
 
 /**
  "results": [
@@ -93,6 +94,11 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { }
+    
+    /// Rescale scores from a scale of 0 -> 10 to 0 -> 5
+    func rescaleRating(rating: Double) -> Double {
+        return round((rating - 0.5) / 2)
+    }
 
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -101,6 +107,10 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         // Set movie title and category tag
         cell.categoryTag?.text = String(self.movies[indexPath.item].vote_average)
         cell.titleLabel?.text = self.movies[indexPath.item].title
+        // TODO: BUG
+        cell.cosmosView?.settings.updateOnTouch = false
+        cell.cosmosView?.settings.fillMode = .half
+        cell.cosmosView?.rating = rescaleRating(rating: self.movies[indexPath.item].vote_average)
 
         // Get movie image
         let baseURL = "http://image.tmdb.org/t/p/"
@@ -118,7 +128,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 cell.movieImage.layer.borderWidth = 4
                 cell.movieImage.layer.masksToBounds = false
                 cell.movieImage.layer.borderColor = UIColor.white.cgColor
-                cell.movieImage.layer.cornerRadius = (cell.movieImage.image?.size.height)! / 28
+                cell.movieImage.layer.cornerRadius = 0
                 cell.movieImage.clipsToBounds = true
             }
         }
