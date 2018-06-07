@@ -44,7 +44,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KA0-DZ-Nay" customClass="CosmosView" customModule="Cosmos">
-                        <rect key="frame" x="127.5" y="80" width="125" height="21"/>
+                        <rect key="frame" x="127" y="80" width="125" height="21"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="filledColor">
                                 <color key="value" red="1" green="0.64260193171027624" blue="0.23825358994388979" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -79,7 +79,7 @@
             <size key="customSize" width="334" height="121"/>
             <connections>
                 <outlet property="categoryTag" destination="JOv-8M-EjG" id="XUL-w0-lQT"/>
-                <outlet property="cosmosView" destination="T41-cQ-xtE" id="WLE-JU-fI9"/>
+                <outlet property="cosmosView" destination="KA0-DZ-Nay" id="yeP-qu-ix8"/>
                 <outlet property="movieImage" destination="T41-cQ-xtE" id="2wf-ON-S4u"/>
                 <outlet property="titleLabel" destination="8Yf-2b-EYa" id="tns-Zl-1Ue"/>
             </connections>

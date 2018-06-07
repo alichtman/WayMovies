@@ -97,7 +97,9 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     /// Rescale scores from a scale of 0 -> 10 to 0 -> 5
     func rescaleRating(rating: Double) -> Double {
-        return round((rating - 0.5) / 2)
+        let rescale: Double = round(rating) / 2
+        print("RESCALED: \(rescale) from \(rating)")
+        return rescale
     }
 
 
@@ -107,10 +109,14 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         // Set movie title and category tag
         cell.categoryTag?.text = String(self.movies[indexPath.item].vote_average)
         cell.titleLabel?.text = self.movies[indexPath.item].title
-        // TODO: BUG
-        cell.cosmosView?.settings.updateOnTouch = false
-        cell.cosmosView?.settings.fillMode = .half
-        cell.cosmosView?.rating = rescaleRating(rating: self.movies[indexPath.item].vote_average)
+        
+        // Set stars in cosmosView with scaled rating
+        guard let cosmosView = cell.cosmosView else {
+            return SearchResultCell()
+        }
+        cosmosView.settings.updateOnTouch = false
+        cosmosView.settings.fillMode = .half
+        cosmosView.rating = rescaleRating(rating: self.movies[indexPath.item].vote_average)
 
         // Get movie image
         let baseURL = "http://image.tmdb.org/t/p/"
