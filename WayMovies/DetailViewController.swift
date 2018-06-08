@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Cosmos
 
 class DetailViewController: InteractiveViewController {
     
@@ -14,8 +15,6 @@ class DetailViewController: InteractiveViewController {
     // https://gist.githubusercontent.com/gyubokbaik/d2ec06fed597759c56aa62c5ff71e9a0/raw/2c9fde04404914cb6e1f5b07db1f9f66e82fe558/panGestureRecognizerHandler.txt
     
     var movieDetail: MovieDetails
-    var initialTouchPoint: CGPoint = CGPoint(x: 0,y: 0)
-    
     
     init(movieDetail: MovieDetails) {
         self.movieDetail = movieDetail
@@ -27,27 +26,6 @@ class DetailViewController: InteractiveViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    @IBAction func panGestureRecognizerHandler(_ sender: UIPanGestureRecognizer) {
-        let touchPoint = sender.location(in: self.view?.window)
-        
-        if sender.state == UIGestureRecognizerState.began {
-            initialTouchPoint = touchPoint
-        } else if sender.state == UIGestureRecognizerState.changed {
-            if touchPoint.y - initialTouchPoint.y > 0 {
-                self.view.frame = CGRect(x: 0, y: touchPoint.y - initialTouchPoint.y, width: self.view.frame.size.width, height: self.view.frame.size.height)
-            }
-        } else if sender.state == UIGestureRecognizerState.ended || sender.state == UIGestureRecognizerState.cancelled {
-            if touchPoint.y - initialTouchPoint.y > 100 {
-                self.dismiss(animated: true, completion: nil)
-            } else {
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.view.frame = CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height)
-                })
-            }
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,13 +35,13 @@ class DetailViewController: InteractiveViewController {
         movieDetailView.translatesAutoresizingMaskIntoConstraints = false
         movieDetailView.backgroundColor = .white
         movieDetailView.layer.cornerRadius = cornerRadiusConstant
+        movieDetailView.clipsToBounds = true
         self.view.addSubview(movieDetailView)
         
         let movieImage = UIImageView()
         movieImage.contentMode = .scaleAspectFill
         movieImage.translatesAutoresizingMaskIntoConstraints = false
         movieImage.image = movieDetail.image
-        movieImage.layer.cornerRadius = cornerRadiusConstant
         movieImage.clipsToBounds = true
         movieDetailView.addSubview(movieImage)
         
@@ -72,20 +50,30 @@ class DetailViewController: InteractiveViewController {
         title.text = movieDetail.movie.title
         title.numberOfLines = 0
         title.textAlignment = .left
-        title.font = UIFont(name: "AvenirNext-Medium", size: 24)
+        title.font = UIFont(name: "AvenirNext-Bold", size: 24)
         movieDetailView.addSubview(title)
+        
+        let cosmosView = CosmosView()
+        // THIS LINE IS IMPORTANT FOR PROGRAMATIC UI CONSTRUCTION
+        cosmosView.translatesAutoresizingMaskIntoConstraints = false
+        cosmosView.settings.updateOnTouch = false
+        cosmosView.settings.fillMode = .half
+        cosmosView.settings.starSize = 25
+        cosmosView.settings.starMargin = 5
+        cosmosView.rating = movieDetail.movie.vote_average
+        movieDetailView.addSubview(cosmosView)
         
         let summary = UILabel()
         summary.translatesAutoresizingMaskIntoConstraints = false
         summary.text = movieDetail.movie.overview
         summary.numberOfLines = 0
         summary.textAlignment = .left
-        summary.font = UIFont(name: "AvenirNext-Light", size: 16)
+        summary.font = UIFont(name: "AvenirNext-Light", size: 14)
         movieDetailView.addSubview(summary)
         
+        let xSmallSpacing: CGFloat = 4
         let smallSpacing: CGFloat = 8
         let largeSpacing: CGFloat = 16
-        let hugeSpacing: CGFloat = 32
         
         NSLayoutConstraint.activate([
             movieDetailView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
@@ -101,13 +89,14 @@ class DetailViewController: InteractiveViewController {
             title.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: smallSpacing),
             title.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
             
-            summary.topAnchor.constraint(equalTo: title.bottomAnchor, constant: smallSpacing),
+            cosmosView.topAnchor.constraint(equalTo: title.bottomAnchor),
+            cosmosView.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: xSmallSpacing),
+            cosmosView.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
+            
+            summary.topAnchor.constraint(equalTo: cosmosView.bottomAnchor, constant: smallSpacing),
             summary.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: largeSpacing),
             summary.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor, constant: -smallSpacing),
             summary.bottomAnchor.constraint(lessThanOrEqualTo: movieDetailView.bottomAnchor, constant: -smallSpacing)
             ])
     }
-    
-    
-    
 }
