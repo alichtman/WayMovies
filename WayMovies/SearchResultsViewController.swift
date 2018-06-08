@@ -77,6 +77,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     print("API Request for Movie Data")
                     print(try JSONSerialization.jsonObject(with: data!))
                     let json = try JSONDecoder().decode(MovieListResponse.self, from: data!)
+                    // Remove all movies with a nil backdrop path?? Still don't know what the TMDB people were thinking tbh...
                     self.movies = json.results.filter {
                         $0.backdrop_path != nil
                     }
@@ -113,14 +114,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         print("TAPPED ITEM: \(indexPath.item)")
         
         // Create a new view controller
-        
         let movieJSON = movies[indexPath.item]
         let movieImage = imgCache.object(forKey: movieJSON.imageURL as NSURL)
         let detailViewController = DetailViewController(movieDetail: MovieDetails(movie: movieJSON, image: movieImage!))
         detailViewController.providesPresentationContextTransitionStyle = true
         detailViewController.definesPresentationContext = true
         detailViewController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        self.present(detailViewController, animated: true, completion: nil)
+        detailViewController.showInteractive()
+        
+//        self.present(detailViewController, animated: true, completion: nil)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
