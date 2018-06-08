@@ -27,13 +27,13 @@ struct Movie: Decodable {
     let title: String
     let overview: String
     let popularity: Double
-    let backdrop_path: String
+    let backdrop_path: String?
     let release_date: String
     let vote_average: Double
-    var imageURL: URL {
+    var imageURL : URL {
         let baseURL = "http://image.tmdb.org/t/p/"
         let width = "w500"
-        return URL(string: baseURL + width + backdrop_path)!
+        return URL(string: baseURL + width + (backdrop_path)!)!
     }
 }
 
@@ -75,10 +75,15 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
             if error == nil {
                 do {
                     print("API Request for Movie Data")
-                    self.movies = try JSONDecoder().decode(MovieListResponse.self, from: data!).results
+                    print(try JSONSerialization.jsonObject(with: data!))
+                    let json = try JSONDecoder().decode(MovieListResponse.self, from: data!)
+                    self.movies = json.results.filter {
+                        $0.backdrop_path != nil
+                    }
                     print(self.movies)
                 } catch {
                     print("Err")
+                    print(error)
                 }
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
