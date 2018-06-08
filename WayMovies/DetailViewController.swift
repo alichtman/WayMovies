@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: InteractiveViewController {
     
     // TODO: Swipe to dismiss detail.
     // https://gist.githubusercontent.com/gyubokbaik/d2ec06fed597759c56aa62c5ff71e9a0/raw/2c9fde04404914cb6e1f5b07db1f9f66e82fe558/panGestureRecognizerHandler.txt
@@ -75,22 +75,37 @@ class DetailViewController: UIViewController {
         title.font = UIFont(name: "AvenirNext-Medium", size: 24)
         movieDetailView.addSubview(title)
         
+        let summary = UILabel()
+        summary.translatesAutoresizingMaskIntoConstraints = false
+        summary.text = movieDetail.movie.overview
+        summary.numberOfLines = 0
+        summary.textAlignment = .left
+        summary.font = UIFont(name: "AvenirNext-Light", size: 16)
+        movieDetailView.addSubview(summary)
+        
+        let smallSpacing: CGFloat = 8
+        let largeSpacing: CGFloat = 16
+        let hugeSpacing: CGFloat = 32
+        
         NSLayoutConstraint.activate([
             movieDetailView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            movieDetailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
-            movieDetailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
+            movieDetailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: largeSpacing),
+            movieDetailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -largeSpacing),
             movieDetailView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
             
             movieImage.topAnchor.constraint(equalTo: movieDetailView.topAnchor),
             movieImage.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor),
             movieImage.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
             
-            title.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: 8),
-            title.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: 8),
+            title.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: smallSpacing),
+            title.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: smallSpacing),
             title.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
-            title.bottomAnchor.constraint(lessThanOrEqualTo: movieDetailView.bottomAnchor)
+            
+            summary.topAnchor.constraint(equalTo: title.bottomAnchor, constant: smallSpacing),
+            summary.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: largeSpacing),
+            summary.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor, constant: -smallSpacing),
+            summary.bottomAnchor.constraint(lessThanOrEqualTo: movieDetailView.bottomAnchor, constant: -smallSpacing)
             ])
-        // Do any additional setup after loading the view.
     }
     
     
