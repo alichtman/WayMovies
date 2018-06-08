@@ -125,10 +125,10 @@
 			children = (
 				18851FAA20C1DC51006977B3 /* AppDelegate.swift */,
 				18851FAE20C1DC51006977B3 /* Main.storyboard */,
-				180DF4B020C8616A00654E87 /* SearchResultCell.xib */,
 				18851FB120C1DC52006977B3 /* Assets.xcassets */,
 				18851FB320C1DC52006977B3 /* LaunchScreen.storyboard */,
 				18851FB620C1DC52006977B3 /* Info.plist */,
+				180DF4B020C8616A00654E87 /* SearchResultCell.xib */,
 				187F333120C206F2005BD12D /* SearchResultCell.swift */,
 				18851FAC20C1DC51006977B3 /* SearchResultsViewController.swift */,
 				1874B52220CACF9000FF37E1 /* InteractiveViewController.swift */,

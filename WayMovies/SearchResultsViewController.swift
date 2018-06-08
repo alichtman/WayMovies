@@ -29,7 +29,7 @@ struct Movie: Decodable {
     let popularity: Double
     let backdrop_path: String?
     let release_date: String
-    let vote_average: Double
+    var vote_average: Double
     var imageURL : URL {
         let baseURL = "http://image.tmdb.org/t/p/"
         let width = "w500"
@@ -77,10 +77,19 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                     print("API Request for Movie Data")
                     print(try JSONSerialization.jsonObject(with: data!))
                     let json = try JSONDecoder().decode(MovieListResponse.self, from: data!)
+                    
                     // Remove all movies with a nil backdrop path?? Still don't know what the TMDB people were thinking tbh...
                     self.movies = json.results.filter {
                         $0.backdrop_path != nil
                     }
+                    
+                    // Rescale all vote averages
+                    self.movies = self.movies.map { (movie: Movie) -> Movie in
+                        var mutableMovie = movie
+                        mutableMovie.vote_average = self.rescaleRating(rating: movie.vote_average)
+                        return mutableMovie
+                    }
+                    
                     print(self.movies)
                 } catch {
                     print("Err")
@@ -121,8 +130,6 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         detailViewController.definesPresentationContext = true
         detailViewController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         detailViewController.showInteractive()
-        
-//        self.present(detailViewController, animated: true, completion: nil)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -140,7 +147,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         }
         cosmosView.settings.updateOnTouch = false
         cosmosView.settings.fillMode = .half
-        cosmosView.rating = rescaleRating(rating: movie.vote_average)
+        cosmosView.rating = movie.vote_average
         
         // Get movie image
         // EXAMPLE URL: http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
@@ -163,7 +170,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
                 }
             }
         }
-
+    
         print(movie.title)
         print(movie.popularity)
         return cell
