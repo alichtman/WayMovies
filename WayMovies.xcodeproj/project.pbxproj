@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		180DF4AF20C845B200654E87 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180DF4AE20C845B200654E87 /* IntroViewController.swift */; };
 		180DF4B120C8616A00654E87 /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180DF4B020C8616A00654E87 /* SearchResultCell.xib */; };
-		1874B52320CACF9100FF37E1 /* InteractiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1874B52220CACF9000FF37E1 /* InteractiveViewController.swift */; };
+		18264C9F20CB4D3C00F03927 /* InteractiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18264C9E20CB4D3C00F03927 /* InteractiveViewController.swift */; };
 		187F333220C206F2005BD12D /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 187F333120C206F2005BD12D /* SearchResultCell.swift */; };
 		18851FAB20C1DC51006977B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18851FAA20C1DC51006977B3 /* AppDelegate.swift */; };
 		18851FAD20C1DC51006977B3 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18851FAC20C1DC51006977B3 /* SearchResultsViewController.swift */; };
@@ -54,7 +54,7 @@
 /* Begin PBXFileReference section */
 		180DF4AE20C845B200654E87 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		180DF4B020C8616A00654E87 /* SearchResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
-		1874B52220CACF9000FF37E1 /* InteractiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InteractiveViewController.swift; path = "../../../../Downloads/Interactive-master/Interactive/InteractiveViewController.swift"; sourceTree = "<group>"; };
+		18264C9E20CB4D3C00F03927 /* InteractiveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveViewController.swift; sourceTree = "<group>"; };
 		187F333120C206F2005BD12D /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		18851FA720C1DC51006977B3 /* WayMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WayMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18851FAA20C1DC51006977B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -131,9 +131,9 @@
 				180DF4B020C8616A00654E87 /* SearchResultCell.xib */,
 				187F333120C206F2005BD12D /* SearchResultCell.swift */,
 				18851FAC20C1DC51006977B3 /* SearchResultsViewController.swift */,
-				1874B52220CACF9000FF37E1 /* InteractiveViewController.swift */,
 				180DF4AE20C845B200654E87 /* IntroViewController.swift */,
 				1891526520C98C4500F6608D /* DetailViewController.swift */,
+				18264C9E20CB4D3C00F03927 /* InteractiveViewController.swift */,
 			);
 			path = WayMovies;
 			sourceTree = "<group>";
@@ -318,7 +318,7 @@
 				18851FAD20C1DC51006977B3 /* SearchResultsViewController.swift in Sources */,
 				187F333220C206F2005BD12D /* SearchResultCell.swift in Sources */,
 				1891526620C98C4500F6608D /* DetailViewController.swift in Sources */,
-				1874B52320CACF9100FF37E1 /* InteractiveViewController.swift in Sources */,
+				18264C9F20CB4D3C00F03927 /* InteractiveViewController.swift in Sources */,
 				18851FAB20C1DC51006977B3 /* AppDelegate.swift in Sources */,
 				180DF4AF20C845B200654E87 /* IntroViewController.swift in Sources */,
 			);

@@ -50,6 +50,7 @@ class DetailViewController: InteractiveViewController {
         title.text = movieDetail.movie.title
         title.numberOfLines = 0
         title.textAlignment = .left
+        title.textColor = .white
         title.font = UIFont(name: "AvenirNext-Bold", size: 24)
         movieDetailView.addSubview(title)
         
@@ -71,6 +72,7 @@ class DetailViewController: InteractiveViewController {
         summary.font = UIFont(name: "AvenirNext-Light", size: 14)
         movieDetailView.addSubview(summary)
         
+        let xxSmallSpacing: CGFloat = 2
         let xSmallSpacing: CGFloat = 4
         let smallSpacing: CGFloat = 8
         let largeSpacing: CGFloat = 16
@@ -85,15 +87,18 @@ class DetailViewController: InteractiveViewController {
             movieImage.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor),
             movieImage.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
             
-            title.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: smallSpacing),
+            // Stick title on top of stars
+            title.bottomAnchor.constraint(equalTo: cosmosView.topAnchor, constant: xxSmallSpacing),
             title.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: smallSpacing),
             title.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
             
-            cosmosView.topAnchor.constraint(equalTo: title.bottomAnchor),
+            // Put stars on top of the image
+            cosmosView.bottomAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: -smallSpacing),
             cosmosView.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: xSmallSpacing),
             cosmosView.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
             
-            summary.topAnchor.constraint(equalTo: cosmosView.bottomAnchor, constant: smallSpacing),
+            // Stick summary below image
+            summary.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: smallSpacing),
             summary.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: largeSpacing),
             summary.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor, constant: -smallSpacing),
             summary.bottomAnchor.constraint(lessThanOrEqualTo: movieDetailView.bottomAnchor, constant: -smallSpacing)
