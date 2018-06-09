@@ -47,9 +47,10 @@ struct MovieDetails {
 }
 
 
-class ViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class SearchResultsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var imgCache : NSCache<NSURL, UIImage> = NSCache()
+    var searchTerm : String = ""
 
     @IBOutlet weak var collectionView: UICollectionView!
     var movies = [Movie]()
@@ -67,6 +68,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(UINib(nibName: "SearchResultCell", bundle: nil), forCellWithReuseIdentifier: "searchResultCell")
+        
+        print(searchTerm + "VC2")
 
         // Get JSON data and drop it in the movies array
         let TMDB_apiKey: String = "0de424715a984f077e1ad542e6cfb656"

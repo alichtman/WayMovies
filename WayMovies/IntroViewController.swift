@@ -8,22 +8,24 @@
 
 import UIKit
 
-class IntroViewController: UIViewController {
+class IntroViewController: UIViewController, UISearchBarDelegate {
     
+    @IBOutlet weak var searchBar: UISearchBar!
     var gradientLayer: CAGradientLayer!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchBar.delegate = self
         createGradientLayer()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//    }
+//
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//    }
 
     /// Create gradient for homescreen and push it to the back
     func createGradientLayer() {
@@ -38,18 +40,20 @@ class IntroViewController: UIViewController {
         self.view.sendSubview(toBack: gradientView)
     }
     
-    @IBAction func goToBrowse(_ sender: UIButton) {
-        
+    /// TODO: Fix segue! Segue to SearchResultsViewController, passing search term.
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
+    {
+        // Return if there's no content in the text
+        guard searchBar.text != "" else { return }
+        print(searchBar.text! + "VC1")
+        self.performSegue(withIdentifier: "search", sender: self)
     }
     
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+            let searchVC: SearchResultsViewController = segue.destination as! SearchResultsViewController
+            searchVC.searchTerm = searchBar.text!
     }
-    */
+    
+    // "I just want to browse" button clicked.
+    @IBAction func goToBrowse(_ sender: UIButton) { }
 }
