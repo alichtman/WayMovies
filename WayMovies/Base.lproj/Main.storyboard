@@ -83,7 +83,7 @@
                                 <state key="normal" title="I just want to browse"/>
                                 <connections>
                                     <action selector="goToBrowse:" destination="4lv-Uy-bzU" eventType="touchUpInside" id="UBl-n5-OCc"/>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="2Lr-ke-l7p"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="search" id="2Lr-ke-l7p"/>
                                 </connections>
                             </button>
                         </subviews>
