@@ -11,12 +11,9 @@ import Cosmos
 
 class DetailViewController: InteractiveViewController {
     
-    // TODO: Swipe to dismiss detail.
-    // https://gist.githubusercontent.com/gyubokbaik/d2ec06fed597759c56aa62c5ff71e9a0/raw/2c9fde04404914cb6e1f5b07db1f9f66e82fe558/panGestureRecognizerHandler.txt
+    var movieDetail: DetailsObject
     
-    var movieDetail: MovieDetails
-    
-    init(movieDetail: MovieDetails) {
+    init(movieDetail: DetailsObject) {
         self.movieDetail = movieDetail
         super.init(nibName: nil, bundle: nil)
     }
@@ -61,7 +58,7 @@ class DetailViewController: InteractiveViewController {
         cosmosView.settings.fillMode = .half
         cosmosView.settings.starSize = 25
         cosmosView.settings.starMargin = 5
-        cosmosView.rating = movieDetail.movie.vote_average
+        cosmosView.rating = movieDetail.movie.vote_average!
         movieDetailView.addSubview(cosmosView)
         
         let summary = UILabel()

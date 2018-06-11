@@ -9,43 +9,49 @@
 import UIKit
 import Cosmos
 
-/**
- "results": [
- {
- "id": 383498,
- "vote_average": 7.9,
- "title": "Deadpool 2",
- "popularity": 321.086589,
- "poster_path": "/to0spRl1CMDvyUbOnbb4fTk3VAd.jpg",
- "original_title": "Deadpool 2",
- "backdrop_path": "/3P52oz9HPQWxcwHOwxtyrVV1LKi.jpg",
- "overview": "Wisecracking mercenary Deadpool battles the evil and powerful Cable and other bad guys to save a boy's life.",
- },
- **/
-
-struct Movie: Decodable {
-    let title: String
-    let overview: String
+struct TVShowOrMovieOrPerson: Decodable {
+    let media_type: String
+    let name: String?
+    let title: String?
+    let overview: String?
     let popularity: Double
     let backdrop_path: String?
-    let release_date: String
-    var vote_average: Double
+    let poster_path: String?
+    let profile_path: String?
+    let first_air_date: String?
+    let release_date: String?
+    var vote_average: Double?
     var imageURL : URL {
         let baseURL = "http://image.tmdb.org/t/p/"
         let width = "w500"
-        return URL(string: baseURL + width + (backdrop_path)!)!
+        
+        let endPath: String
+        // Person image
+        if let backdrop = profile_path {
+            endPath = backdrop
+        }
+        // Preferred movie image
+        else if let backdrop = backdrop_path {
+            endPath = backdrop
+        }
+        // Fall-back image
+        else {
+            endPath = poster_path!
+        }
+        
+        return URL(string: baseURL + width + endPath)!
     }
+    var known_for: [TVShowOrMovieOrPerson]?
 }
 
-struct MovieListResponse: Decodable {
-    let results: [Movie]
+struct JSONResponse: Decodable {
+    let results: [TVShowOrMovieOrPerson]
 }
 
-struct MovieDetails {
-    let movie: Movie
+struct DetailsObject {
+    let movie: TVShowOrMovieOrPerson
     let image: UIImage
 }
-
 
 class SearchResultsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -53,7 +59,7 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
     var searchTerm : String = ""
 
     @IBOutlet weak var collectionView: UICollectionView!
-    var movies = [Movie]()
+    var displayedResults = [TVShowOrMovieOrPerson]()
 
     func getDataFromUrl(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
         URLSession.shared.dataTask(with: url) { data, response, error in
@@ -61,39 +67,37 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
             }.resume()
     }
 
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(UINib(nibName: "SearchResultCell", bundle: nil), forCellWithReuseIdentifier: "searchResultCell")
-        
-        print(searchTerm + "VC2")
-
-        // Get JSON data and drop it in the movies array
+    fileprivate func getDataFromAPI() {
         let TMDB_apiKey: String = "0de424715a984f077e1ad542e6cfb656"
-        let url = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(TMDB_apiKey)")
-        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+        // let discoverUrl = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(TMDB_apiKey)")
+        //TODO: ASCII MAGIC
+        searchTerm = searchTerm.replacingOccurrences(of: " ", with: "%20")
+        let searchURL = URL(string: "https://api.themoviedb.org/3/search/multi?api_key=\(TMDB_apiKey)&query=\(searchTerm)")
+        URLSession.shared.dataTask(with: searchURL!) { (data, response, error) in
             if error == nil {
                 do {
-                    print("API Request for Movie Data")
+                    print("API Request for Search Data")
                     print(try JSONSerialization.jsonObject(with: data!))
-                    let json = try JSONDecoder().decode(MovieListResponse.self, from: data!)
+                    let responseObj = try JSONDecoder().decode(JSONResponse.self, from: data!)
                     
-                    // Remove all movies with a nil backdrop path?? Still don't know what the TMDB people were thinking tbh...
-                    self.movies = json.results.filter {
-                        $0.backdrop_path != nil
+                    // Remove all results missing all three of the possible image paths.
+                    self.displayedResults = responseObj.results.filter {
+                        $0.backdrop_path != nil || $0.poster_path != nil || $0.profile_path != nil
                     }
                     
+                    print("WTF")
                     // Rescale all vote averages
-                    self.movies = self.movies.map { (movie: Movie) -> Movie in
-                        var mutableMovie = movie
-                        mutableMovie.vote_average = self.rescaleRating(rating: movie.vote_average)
-                        return mutableMovie
+                    self.displayedResults = self.displayedResults.map { (result: TVShowOrMovieOrPerson) -> TVShowOrMovieOrPerson in
+                        // Checks if vote average exists or not.
+                        if result.media_type != "person" {
+                            var mutableResult = result
+                            mutableResult.vote_average = self.rescaleRating(rating:  result.vote_average!)
+                            return mutableResult
+                        } else {
+                            return result
+                        }
                     }
-                    
-                    print(self.movies)
+                    print(self.displayedResults)
                 } catch {
                     print("Err")
                     print(error)
@@ -102,7 +106,19 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
                     self.collectionView?.reloadData()
                 }
             }
-        }.resume()
+            }.resume()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(UINib(nibName: "SearchResultCell", bundle: nil), forCellWithReuseIdentifier: "searchResultCell")
+        
+        print(searchTerm + " RECEIVED -> VC2")
+
+        getDataFromAPI()
     }
 
     
@@ -115,8 +131,8 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
     
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(self.movies.count)
-        return self.movies.count
+        print(self.displayedResults.count)
+        return self.displayedResults.count
     }
     
     // TODO: Animation for cell about to come in.
@@ -126,9 +142,9 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
         print("TAPPED ITEM: \(indexPath.item)")
         
         // Create a new view controller
-        let movieJSON = movies[indexPath.item]
+        let movieJSON = displayedResults[indexPath.item]
         let movieImage = imgCache.object(forKey: movieJSON.imageURL as NSURL)
-        let detailViewController = DetailViewController(movieDetail: MovieDetails(movie: movieJSON, image: movieImage!))
+        let detailViewController = DetailViewController(movieDetail: DetailsObject(movie: movieJSON, image: movieImage!))
         detailViewController.providesPresentationContextTransitionStyle = true
         detailViewController.definesPresentationContext = true
         detailViewController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
@@ -138,44 +154,47 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "searchResultCell", for: indexPath) as! SearchResultCell
 
-        let movie = self.movies[indexPath.item]
+        let displayItem = self.displayedResults[indexPath.item]
         
         // Set movie title and category tag
-        cell.categoryTag?.text = String(movie.popularity)
-        cell.titleLabel?.text = movie.title
+        cell.categoryTag?.text = String(displayItem.popularity)
+        cell.titleLabel?.text = displayItem.title
         
         // Set stars in cosmosView with scaled rating
         guard let cosmosView = cell.cosmosView else {
             return SearchResultCell()
         }
-        cosmosView.settings.updateOnTouch = false
-        cosmosView.settings.fillMode = .half
-        cosmosView.rating = movie.vote_average
         
-        // Get movie image
+        if displayItem.media_type != "person" {
+            cosmosView.settings.updateOnTouch = false
+            cosmosView.settings.fillMode = .half
+            cosmosView.rating = displayItem.vote_average!
+        }
+        
+        // Get image
         // EXAMPLE URL: http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
-        let movieImage = cell.movieImage
-        movieImage?.contentMode = .scaleAspectFill
-        movieImage?.layer.cornerRadius = 30
-        movieImage?.clipsToBounds = true
+        let displayImage = cell.movieImage
+        displayImage?.contentMode = .scaleAspectFill
+        displayImage?.layer.cornerRadius = 30
+        displayImage?.clipsToBounds = true
         
         // If movie image in cache, use it
-        if let poster = imgCache.object(forKey: movie.imageURL as NSURL) {
-            movieImage?.image = poster
+        if let poster = imgCache.object(forKey: displayItem.imageURL as NSURL) {
+            displayImage?.image = poster
         } else { // Else, make API request for movie image and update cache
-            getDataFromUrl(url: movie.imageURL) { data, response, error in
+            getDataFromUrl(url: displayItem.imageURL) { data, response, error in
                 guard let data = data, error == nil else { return }
                 print("Download Finished: " + (response?.suggestedFilename)!)
                 DispatchQueue.main.async() {
                     let fetchedImg = UIImage(data: data)
-                    movieImage?.image = fetchedImg
-                    self.imgCache.setObject(fetchedImg!, forKey: movie.imageURL as NSURL)
+                    displayImage?.image = fetchedImg
+                    self.imgCache.setObject(fetchedImg!, forKey: displayItem.imageURL as NSURL)
                 }
             }
         }
     
-        print(movie.title)
-        print(movie.popularity)
+        print(displayItem.title as Any)
+        print(displayItem.popularity)
         return cell
     }
 }
