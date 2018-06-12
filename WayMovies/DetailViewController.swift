@@ -52,14 +52,20 @@ class DetailViewController: InteractiveViewController {
         movieDetailView.addSubview(title)
         
         let cosmosView = CosmosView()
-        // THIS LINE IS IMPORTANT FOR PROGRAMATIC UI CONSTRUCTION
-        cosmosView.translatesAutoresizingMaskIntoConstraints = false
-        cosmosView.settings.updateOnTouch = false
-        cosmosView.settings.fillMode = .half
-        cosmosView.settings.starSize = 25
-        cosmosView.settings.starMargin = 5
-        cosmosView.rating = movieDetail.movie.vote_average!
-        movieDetailView.addSubview(cosmosView)
+        
+        if movieDetail.movie.media_type != "person" {
+            // THIS LINE IS IMPORTANT FOR PROGRAMATIC UI CONSTRUCTION
+            cosmosView.translatesAutoresizingMaskIntoConstraints = false
+            cosmosView.settings.updateOnTouch = false
+            cosmosView.settings.fillMode = .half
+            cosmosView.settings.starSize = 25
+            cosmosView.settings.starMargin = 5
+            cosmosView.rating = movieDetail.movie.vote_average!
+            movieDetailView.addSubview(cosmosView)
+        } else {
+            cosmosView.settings.starSize = 0
+            cosmosView.settings.filledColor = .clear
+        }
         
         let summary = UILabel()
         summary.translatesAutoresizingMaskIntoConstraints = false
