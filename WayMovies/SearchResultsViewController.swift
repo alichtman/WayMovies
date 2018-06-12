@@ -30,11 +30,11 @@ struct TVShowOrMovieOrPerson: Decodable {
         if let backdrop = profile_path {
             endPath = backdrop
         }
-        // Preferred movie image
+            // Preferred movie image
         else if let backdrop = backdrop_path {
             endPath = backdrop
         }
-        // Fall-back image
+            // Fall-back image
         else {
             endPath = poster_path!
         }
@@ -58,16 +58,16 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
     var imgCache : NSCache<NSURL, UIImage> = NSCache()
     @IBOutlet weak var resultsSearchBar: UISearchBar!
     var searchTerm : String = ""
-
+    
     @IBOutlet weak var collectionView: UICollectionView!
     var displayedResults = [TVShowOrMovieOrPerson]()
-
+    
     func getDataFromUrl(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
         URLSession.shared.dataTask(with: url) { data, response, error in
             completion(data, response, error)
             }.resume()
     }
-
+    
     fileprivate func getDataFromAPI() {
         let TMDB_apiKey: String = "0de424715a984f077e1ad542e6cfb656"
         // let discoverUrl = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(TMDB_apiKey)")
@@ -119,7 +119,7 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
         print(searchTerm + " RECEIVED -> VC2")
         getDataFromAPI()
     }
-
+    
     
     /// Rescale scores from a scale of 0 -> 10 to 0 -> 5
     func rescaleRating(rating: Double) -> Double {
@@ -136,7 +136,7 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
         searchTerm = searchBar.text!
         getDataFromAPI()
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print(self.displayedResults.count)
         return self.displayedResults.count
@@ -157,55 +157,79 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
         detailViewController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
         detailViewController.showInteractive()
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "searchResultCell", for: indexPath) as! SearchResultCell
-
-        let displayItem = self.displayedResults[indexPath.item]
         
-        // Set movie title and category tag
-        cell.categoryTag?.text = String(displayItem.popularity)
-        cell.titleLabel?.text = displayItem.title
-        
-        // Set stars in cosmosView with scaled rating
-        guard let cosmosView = cell.cosmosView else {
-            return SearchResultCell()
-        }
-        
-        // Don't show stars for people search results
-        if displayItem.media_type != "person" {
-            cosmosView.settings.updateOnTouch = false
-            cosmosView.settings.fillMode = .half
-            cosmosView.rating = displayItem.vote_average!
-        } else {
-            cosmosView.settings.emptyBorderColor = .clear
-            cosmosView.settings.filledColor = .clear
-        }
+        let itemForDisplay = self.displayedResults[indexPath.item]
         
         // Get image
-        // EXAMPLE URL: http://image.tmdb.org/t/p/w185//nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
         let displayImage = cell.movieImage
         displayImage?.contentMode = .scaleAspectFill
         displayImage?.layer.cornerRadius = 30
         displayImage?.clipsToBounds = true
         
         // If movie image in cache, use it
-        if let poster = imgCache.object(forKey: displayItem.imageURL as NSURL) {
+        if let poster = imgCache.object(forKey: itemForDisplay.imageURL as NSURL) {
             displayImage?.image = poster
         } else { // Else, make API request for movie image and update cache
-            getDataFromUrl(url: displayItem.imageURL) { data, response, error in
+            
+            getDataFromUrl(url: itemForDisplay.imageURL) { data, response, error in
                 guard let data = data, error == nil else { return }
                 print("Download Finished: " + (response?.suggestedFilename)!)
                 DispatchQueue.main.async() {
                     let fetchedImg = UIImage(data: data)
                     displayImage?.image = fetchedImg
-                    self.imgCache.setObject(fetchedImg!, forKey: displayItem.imageURL as NSURL)
+                    self.imgCache.setObject(fetchedImg!, forKey: itemForDisplay.imageURL as NSURL)
                 }
             }
         }
-    
-        print(displayItem.title as Any)
-        print(displayItem.popularity)
+        
+        guard let cosmosView = cell.cosmosView else {
+            return SearchResultCell()
+        }
+        
+        // Set both TV and Movie properties
+        if itemForDisplay.media_type == "movie" || itemForDisplay.media_type == "tv" {
+            
+            cosmosView.settings.emptyBorderColor = .clear
+            cosmosView.settings.filledBorderColor = .gray
+            cosmosView.settings.filledBorderWidth = 0.5
+            cosmosView.settings.filledColor = .orange
+            cosmosView.settings.starSize = 30
+            cosmosView.settings.updateOnTouch = false
+            cosmosView.settings.fillMode = .half
+            cosmosView.rating = itemForDisplay.vote_average!
+        }
+        
+        // Special movie properties
+        if itemForDisplay.media_type == "movie" {
+            
+            cell.categoryTag?.text = "MOVIE"
+            cell.categoryTag?.backgroundColor = .green
+            
+            cell.titleLabel?.text = itemForDisplay.title
+            
+            print(itemForDisplay.title as Any)
+            print(itemForDisplay.popularity)
+            
+        } else if itemForDisplay.media_type == "tv" { // Special TV properties
+            
+            cell.categoryTag?.text = "TV SHOW"
+            cell.categoryTag?.backgroundColor = .blue
+            cell.titleLabel?.text = itemForDisplay.name
+            
+        } else { // Special person properties
+            
+            // TODO: Detection of "she"/"her" in the overview with probabilistic decision for "Actor/Actress" tag
+            cell.categoryTag?.text = "ACTOR/ACTRESS"
+            cell.titleLabel?.text = itemForDisplay.name
+            print(itemForDisplay.imageURL)
+            
+            // Don't show stars for people search results
+            cosmosView.settings.emptyBorderColor = .clear
+            cosmosView.settings.filledColor = .clear
+        }
         return cell
     }
 }
