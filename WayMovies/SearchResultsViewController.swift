@@ -53,9 +53,10 @@ struct DetailsObject {
     let image: UIImage
 }
 
-class SearchResultsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class SearchResultsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
     
     var imgCache : NSCache<NSURL, UIImage> = NSCache()
+    @IBOutlet weak var resultsSearchBar: UISearchBar!
     var searchTerm : String = ""
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -110,13 +111,12 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        resultsSearchBar.delegate = self
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(UINib(nibName: "SearchResultCell", bundle: nil), forCellWithReuseIdentifier: "searchResultCell")
         
         print(searchTerm + " RECEIVED -> VC2")
-
         getDataFromAPI()
     }
 
@@ -128,6 +128,14 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
         return rescale
     }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
+    {
+        // Return if there's no content in the text
+        guard searchBar.text != "" else { return }
+        print(searchBar.text! + "VC2 RESEARCH")
+        searchTerm = searchBar.text!
+        getDataFromAPI()
+    }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print(self.displayedResults.count)

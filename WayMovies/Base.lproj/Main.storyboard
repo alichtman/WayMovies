@@ -48,6 +48,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="qBf-Of-BBB" id="D67-mV-kXN"/>
+                        <outlet property="resultsSearchBar" destination="UA6-kl-Ql5" id="Bmk-K3-gaC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

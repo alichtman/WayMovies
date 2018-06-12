@@ -18,14 +18,6 @@ class IntroViewController: UIViewController, UISearchBarDelegate {
         searchBar.delegate = self
         createGradientLayer()
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//    }
-//
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//    }
 
     /// Create gradient for homescreen and push it to the back
     func createGradientLayer() {
@@ -40,7 +32,6 @@ class IntroViewController: UIViewController, UISearchBarDelegate {
         self.view.sendSubview(toBack: gradientView)
     }
     
-    /// TODO: Fix segue! Segue to SearchResultsViewController, passing search term.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
     {
         // Return if there's no content in the text
