@@ -10,16 +10,20 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Search Results View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="WayMovies" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="SearchResultsViewController" customModule="WayMovies" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="UA6-kl-Ql5">
+                                <rect key="frame" x="0.0" y="64" width="375" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qBf-Of-BBB">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="120" width="375" height="547"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="0.25998569542253519" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="5" sectionInsetReference="safeArea" id="ONl-P3-LF4">
                                     <size key="itemSize" width="375" height="140"/>
@@ -32,15 +36,19 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="UA6-kl-Ql5" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="541-nK-H3Z"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="UA6-kl-Ql5" secondAttribute="trailing" id="Ig4-PH-f0E"/>
                             <constraint firstItem="qBf-Of-BBB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="IrA-Yd-ReI"/>
                             <constraint firstItem="qBf-Of-BBB" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="VSo-C8-3Kh"/>
                             <constraint firstItem="qBf-Of-BBB" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="YJ4-wz-DRn"/>
-                            <constraint firstItem="qBf-Of-BBB" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="fgy-aC-KXM"/>
+                            <constraint firstItem="qBf-Of-BBB" firstAttribute="top" secondItem="UA6-kl-Ql5" secondAttribute="bottom" id="czi-7R-Ma9"/>
+                            <constraint firstItem="UA6-kl-Ql5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="y1x-Z1-rwM"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="qBf-Of-BBB" id="D67-mV-kXN"/>
+                        <outlet property="resultsSearchBar" destination="UA6-kl-Ql5" id="Bmk-K3-gaC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -55,7 +63,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" text="" translatesAutoresizingMaskIntoConstraints="NO" id="PHX-24-vt9">
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" text="" placeholder="Search for..." translatesAutoresizingMaskIntoConstraints="NO" id="PHX-24-vt9">
                                 <rect key="frame" x="32" y="341" width="310" height="56"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="310" id="2Cl-HL-rqU"/>
@@ -83,7 +91,7 @@
                                 <state key="normal" title="I just want to browse"/>
                                 <connections>
                                     <action selector="goToBrowse:" destination="4lv-Uy-bzU" eventType="touchUpInside" id="UBl-n5-OCc"/>
-                                    <segue destination="BYZ-38-t0r" kind="show" id="2Lr-ke-l7p"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="search" id="2Lr-ke-l7p"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -102,6 +110,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="9nt-im-1w2"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="searchBar" destination="PHX-24-vt9" id="I6d-v3-Biv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hft-cE-bE4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
