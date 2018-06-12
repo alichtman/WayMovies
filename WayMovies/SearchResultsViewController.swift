@@ -85,7 +85,6 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
                         $0.backdrop_path != nil || $0.poster_path != nil || $0.profile_path != nil
                     }
                     
-                    print("WTF")
                     // Rescale all vote averages
                     self.displayedResults = self.displayedResults.map { (result: TVShowOrMovieOrPerson) -> TVShowOrMovieOrPerson in
                         // Checks if vote average exists or not.
@@ -165,10 +164,14 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
             return SearchResultCell()
         }
         
+        // Don't show stars for people search results
         if displayItem.media_type != "person" {
             cosmosView.settings.updateOnTouch = false
             cosmosView.settings.fillMode = .half
             cosmosView.rating = displayItem.vote_average!
+        } else {
+            cosmosView.settings.emptyBorderColor = .clear
+            cosmosView.settings.filledColor = .clear
         }
         
         // Get image
