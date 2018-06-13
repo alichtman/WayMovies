@@ -11,10 +11,10 @@ import Cosmos
 
 class DetailViewController: InteractiveViewController {
     
-    var movieDetail: DetailsObject
+    var detailObject: DetailsObject
     
     init(movieDetail: DetailsObject) {
-        self.movieDetail = movieDetail
+        self.detailObject = movieDetail
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -38,13 +38,21 @@ class DetailViewController: InteractiveViewController {
         let movieImage = UIImageView()
         movieImage.contentMode = .scaleAspectFill
         movieImage.translatesAutoresizingMaskIntoConstraints = false
-        movieImage.image = movieDetail.image
+        movieImage.image = detailObject.image
         movieImage.clipsToBounds = true
         movieDetailView.addSubview(movieImage)
         
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
-        title.text = movieDetail.movie.title
+        
+        let type: String = detailObject.data.media_type
+        
+        if type == "person" {
+            
+        } else if type == "movie" || type == "tv" {
+            title.text = detailObject.data.name
+        }
+        
         title.numberOfLines = 0
         title.textAlignment = .left
         title.textColor = .white
@@ -53,23 +61,23 @@ class DetailViewController: InteractiveViewController {
         
         let cosmosView = CosmosView()
         
-        if movieDetail.movie.media_type != "person" {
+        if detailObject.data.media_type != "person" {
             // THIS LINE IS IMPORTANT FOR PROGRAMATIC UI CONSTRUCTION
             cosmosView.translatesAutoresizingMaskIntoConstraints = false
             cosmosView.settings.updateOnTouch = false
             cosmosView.settings.fillMode = .half
             cosmosView.settings.starSize = 25
             cosmosView.settings.starMargin = 5
-            cosmosView.rating = movieDetail.movie.vote_average!
-            movieDetailView.addSubview(cosmosView)
+            cosmosView.rating = detailObject.data.vote_average!
         } else {
-            cosmosView.settings.starSize = 0
             cosmosView.settings.filledColor = .clear
         }
         
+        movieDetailView.addSubview(cosmosView)
+        
         let summary = UILabel()
         summary.translatesAutoresizingMaskIntoConstraints = false
-        summary.text = movieDetail.movie.overview
+        summary.text = detailObject.data.overview
         summary.numberOfLines = 0
         summary.textAlignment = .left
         summary.font = UIFont(name: "AvenirNext-Light", size: 14)

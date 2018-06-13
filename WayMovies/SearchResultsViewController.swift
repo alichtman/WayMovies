@@ -49,7 +49,7 @@ struct JSONResponse: Decodable {
 }
 
 struct DetailsObject {
-    let movie: TVShowOrMovieOrPerson
+    let data: TVShowOrMovieOrPerson
     let image: UIImage
 }
 
@@ -151,7 +151,7 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
         // Create a new view controller
         let movieJSON = displayedResults[indexPath.item]
         let movieImage = imgCache.object(forKey: movieJSON.imageURL as NSURL)
-        let detailViewController = DetailViewController(movieDetail: DetailsObject(movie: movieJSON, image: movieImage!))
+        let detailViewController = DetailViewController(movieDetail: DetailsObject(data: movieJSON, image: movieImage!))
         detailViewController.providesPresentationContextTransitionStyle = true
         detailViewController.definesPresentationContext = true
         detailViewController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
