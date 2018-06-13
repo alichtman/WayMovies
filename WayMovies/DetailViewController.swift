@@ -77,6 +77,7 @@ class DetailViewController: InteractiveViewController {
         
         let summary = UILabel()
         summary.translatesAutoresizingMaskIntoConstraints = false
+        // TODO: Set Person text = known_for[0].mediaType -> known_for[0].overview
         summary.text = detailObject.data.overview
         summary.numberOfLines = 0
         summary.textAlignment = .left
