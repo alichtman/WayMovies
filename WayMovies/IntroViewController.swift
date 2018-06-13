@@ -41,8 +41,10 @@ class IntroViewController: UIViewController, UISearchBarDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "search" {
             let searchVC: SearchResultsViewController = segue.destination as! SearchResultsViewController
             searchVC.searchTerm = searchBar.text!
+        }
     }
     
     // "I just want to browse" button clicked.
