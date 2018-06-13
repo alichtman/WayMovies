@@ -9,6 +9,18 @@
 import UIKit
 import Cosmos
 
+struct categoryTagText {
+    static let movieTag = " MOVIE "
+    static let tvTag = " TV SHOW "
+    static let personTag = " ACTOR / ACTRESS "
+}
+
+struct categoryTagColor {
+    static let movieColor = UIColor.green
+    static let tvColor = UIColor.blue
+    static let personColor = UIColor.red
+}
+
 struct TVShowOrMovieOrPerson: Decodable {
     let media_type: String
     let name: String?
@@ -49,11 +61,11 @@ struct JSONResponse: Decodable {
 }
 
 struct DetailsObject {
-    let movie: TVShowOrMovieOrPerson
+    let data: TVShowOrMovieOrPerson
     let image: UIImage
 }
 
-class SearchResultsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
+class SearchResultsViewController: UIViewController {
     
     var imgCache : NSCache<NSURL, UIImage> = NSCache()
     @IBOutlet weak var resultsSearchBar: UISearchBar!
@@ -68,7 +80,8 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
             }.resume()
     }
     
-    fileprivate func getDataFromAPI() {
+    // TODO: Refactor this to take in a keyword and search for that category.
+    func getDataFromAPI() {
         let TMDB_apiKey: String = "0de424715a984f077e1ad542e6cfb656"
         // let discoverUrl = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(TMDB_apiKey)")
         //TODO: ASCII MAGIC
@@ -81,14 +94,13 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
                     print(try JSONSerialization.jsonObject(with: data!))
                     let responseObj = try JSONDecoder().decode(JSONResponse.self, from: data!)
                     
-                    // Remove all results missing all three of the possible image paths.
+                    // Remove all results without an image path or without a vote average.
                     self.displayedResults = responseObj.results.filter {
-                        $0.backdrop_path != nil || $0.poster_path != nil || $0.profile_path != nil
+                        ($0.backdrop_path != nil || $0.poster_path != nil || $0.profile_path != nil) && $0.vote_average != 0
                     }
                     
                     // Rescale all vote averages
                     self.displayedResults = self.displayedResults.map { (result: TVShowOrMovieOrPerson) -> TVShowOrMovieOrPerson in
-                        // Checks if vote average exists or not.
                         if result.media_type != "person" {
                             var mutableResult = result
                             mutableResult.vote_average = self.rescaleRating(rating:  result.vote_average!)
@@ -99,7 +111,6 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
                     }
                     print(self.displayedResults)
                 } catch {
-                    print("Err")
                     print(error)
                 }
                 DispatchQueue.main.async {
@@ -128,14 +139,23 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
         return rescale
     }
     
+}
+
+
+extension SearchResultsViewController: UISearchBarDelegate {
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
     {
         // Return if there's no content in the text
         guard searchBar.text != "" else { return }
-        print(searchBar.text! + "VC2 RESEARCH")
+        print(searchBar.text! + " VC2 RE-SEARCH")
         searchTerm = searchBar.text!
         getDataFromAPI()
     }
+}
+
+
+extension SearchResultsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print(self.displayedResults.count)
@@ -151,7 +171,7 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
         // Create a new view controller
         let movieJSON = displayedResults[indexPath.item]
         let movieImage = imgCache.object(forKey: movieJSON.imageURL as NSURL)
-        let detailViewController = DetailViewController(movieDetail: DetailsObject(movie: movieJSON, image: movieImage!))
+        let detailViewController = DetailViewController(movieDetail: DetailsObject(data: movieJSON, image: movieImage!))
         detailViewController.providesPresentationContextTransitionStyle = true
         detailViewController.definesPresentationContext = true
         detailViewController.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
@@ -205,8 +225,8 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
         // Special movie properties
         if itemForDisplay.media_type == "movie" {
             
-            cell.categoryTag?.text = "MOVIE"
-            cell.categoryTag?.backgroundColor = .green
+            cell.categoryTag?.text = categoryTagText.movieTag
+            cell.categoryTag?.backgroundColor = categoryTagColor.movieColor
             
             cell.titleLabel?.text = itemForDisplay.title
             
@@ -215,14 +235,15 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
             
         } else if itemForDisplay.media_type == "tv" { // Special TV properties
             
-            cell.categoryTag?.text = "TV SHOW"
-            cell.categoryTag?.backgroundColor = .blue
+            cell.categoryTag?.text = categoryTagText.tvTag
+            cell.categoryTag?.backgroundColor = categoryTagColor.tvColor
             cell.titleLabel?.text = itemForDisplay.name
             
         } else { // Special person properties
             
             // TODO: Detection of "she"/"her" in the overview with probabilistic decision for "Actor/Actress" tag
-            cell.categoryTag?.text = "ACTOR/ACTRESS"
+            cell.categoryTag?.text = categoryTagText.personTag
+            cell.categoryTag?.backgroundColor = categoryTagColor.personColor
             cell.titleLabel?.text = itemForDisplay.name
             print(itemForDisplay.imageURL)
             
