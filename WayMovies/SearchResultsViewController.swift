@@ -81,14 +81,13 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
                     print(try JSONSerialization.jsonObject(with: data!))
                     let responseObj = try JSONDecoder().decode(JSONResponse.self, from: data!)
                     
-                    // Remove all results missing all three of the possible image paths.
+                    // Remove all results without an image path or without a vote average.
                     self.displayedResults = responseObj.results.filter {
-                        $0.backdrop_path != nil || $0.poster_path != nil || $0.profile_path != nil
+                        ($0.backdrop_path != nil || $0.poster_path != nil || $0.profile_path != nil) && $0.vote_average != 0
                     }
                     
                     // Rescale all vote averages
                     self.displayedResults = self.displayedResults.map { (result: TVShowOrMovieOrPerson) -> TVShowOrMovieOrPerson in
-                        // Checks if vote average exists or not.
                         if result.media_type != "person" {
                             var mutableResult = result
                             mutableResult.vote_average = self.rescaleRating(rating:  result.vote_average!)
@@ -99,7 +98,6 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
                     }
                     print(self.displayedResults)
                 } catch {
-                    print("Err")
                     print(error)
                 }
                 DispatchQueue.main.async {
@@ -132,7 +130,7 @@ class SearchResultsViewController: UIViewController, UICollectionViewDataSource,
     {
         // Return if there's no content in the text
         guard searchBar.text != "" else { return }
-        print(searchBar.text! + "VC2 RESEARCH")
+        print(searchBar.text! + " VC2 RE-SEARCH")
         searchTerm = searchBar.text!
         getDataFromAPI()
     }
