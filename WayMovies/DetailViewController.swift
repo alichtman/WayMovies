@@ -9,15 +9,21 @@
 import UIKit
 import Cosmos
 
+struct Person: Decodable {
+    let biography: String
+}
+
 class DetailViewController: InteractiveViewController {
     
     var detailObject: DetailsObject
+    
+    var personText: String?
     
     init(movieDetail: DetailsObject) {
         self.detailObject = movieDetail
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -69,7 +75,7 @@ class DetailViewController: InteractiveViewController {
         title.textAlignment = .left
         title.textColor = .white
         title.font = UIFont(name: "AvenirNext-Bold", size: 24)
-    
+        
         if type == "movie" {
             title.text = detailObject.data.title
         } else if type == "tv" || type == "person" {
@@ -102,17 +108,29 @@ class DetailViewController: InteractiveViewController {
         
         // Set Person text = known_for[0].mediaType -> known_for[0].overview
         if type == "person" {
-            var highlights: [String] = []
-            for elem in detailObject.data.known_for! {
-                highlights.append(elem.name ?? elem.title! + " -> " + elem.overview!)
-            }
-
-            summary.text = "KNOWN FOR:\n" + highlights.joined(separator: "\n\n")
+            // API REQUEST TO https://api.themoviedb.org/3/person/{IDHERE}\?api_key\=71ab1b19293efe581c569c1c79d0f004
+            let searchURL = URL(string: "https://api.themoviedb.org/3/person/\(detailObject.data.id)?api_key=\(TMDB_apiKey)")
+            URLSession.shared.dataTask(with: searchURL!) { [weak self] (data, response, error) in
+                if error == nil {
+                    do {
+                        print("API Request for Person Data")
+                        print(try JSONSerialization.jsonObject(with: data!))
+                        let personData = try JSONDecoder().decode(Person.self, from: data!)
+                        self?.personText = personData.biography
+                        
+                        DispatchQueue.main.async {
+                            summary.text = self?.personText
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+                }.resume()
         } else {
             summary.text = detailObject.data.overview!
         }
         
-        summary.numberOfLines = 8
+        summary.numberOfLines = 0
         summary.textAlignment = .left
         summary.font = UIFont(name: "AvenirNext-Light", size: 14)
         movieDetailView.addSubview(summary)
@@ -122,37 +140,67 @@ class DetailViewController: InteractiveViewController {
         let smallSpacing: CGFloat = 8
         let largeSpacing: CGFloat = 16
         
-        NSLayoutConstraint.activate([
-            movieDetailView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            movieDetailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: largeSpacing),
-            movieDetailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -largeSpacing),
-            movieDetailView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-            movieDetailView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.5),
-            
-            movieImage.topAnchor.constraint(equalTo: movieDetailView.topAnchor),
-            movieImage.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor),
-            movieImage.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
-            movieImage.heightAnchor.constraint(lessThanOrEqualToConstant: 250),
-            
-            // Stick category on top of title
-            categoryTag.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -xxSmallSpacing),
-            categoryTag.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: smallSpacing),
-            
-            // Stick title on top of stars
-            title.bottomAnchor.constraint(equalTo: cosmosView.topAnchor, constant: xxSmallSpacing),
-            title.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: smallSpacing),
-            title.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
-            
-            // Put stars above the bottom of the image
-            cosmosView.bottomAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: -smallSpacing),
-            cosmosView.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: xSmallSpacing),
-            cosmosView.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
-            
-            // Stick summary below image
-            summary.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: smallSpacing),
-            summary.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: largeSpacing),
-            summary.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor, constant: -smallSpacing),
-            summary.bottomAnchor.constraint(lessThanOrEqualTo: movieDetailView.bottomAnchor, constant: -smallSpacing)
-            ])
+        if type == "person" {
+            NSLayoutConstraint.activate([
+                movieDetailView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                movieDetailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: largeSpacing),
+                movieDetailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -largeSpacing),
+                movieDetailView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+                movieDetailView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.8),
+                
+                movieImage.topAnchor.constraint(equalTo: movieDetailView.topAnchor),
+                movieImage.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor),
+                movieImage.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
+                movieImage.heightAnchor.constraint(lessThanOrEqualToConstant: 250),
+                
+                // Stick category on top of title
+                categoryTag.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -xxSmallSpacing),
+                categoryTag.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: smallSpacing),
+                
+                // Stick title above the bottom of the image
+                title.bottomAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: -smallSpacing),
+                title.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: smallSpacing),
+                title.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
+                
+                // Stick summary below image
+                summary.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: smallSpacing),
+                summary.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: largeSpacing),
+                summary.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor, constant: -smallSpacing),
+                summary.bottomAnchor.constraint(lessThanOrEqualTo: movieDetailView.bottomAnchor, constant: smallSpacing)
+                ])
+        } else {
+            NSLayoutConstraint.activate([
+                movieDetailView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                movieDetailView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: largeSpacing),
+                movieDetailView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -largeSpacing),
+                movieDetailView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+                movieDetailView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.65),
+                
+                movieImage.topAnchor.constraint(equalTo: movieDetailView.topAnchor),
+                movieImage.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor),
+                movieImage.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
+                movieImage.heightAnchor.constraint(lessThanOrEqualToConstant: 250),
+                
+                // Stick category on top of title
+                categoryTag.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -xxSmallSpacing),
+                categoryTag.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: smallSpacing),
+                
+                // Stick title on top of stars
+                title.bottomAnchor.constraint(equalTo: cosmosView.topAnchor, constant: xxSmallSpacing),
+                title.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: smallSpacing),
+                title.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
+                
+                // Put stars above the bottom of the image
+                cosmosView.bottomAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: -smallSpacing),
+                cosmosView.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: xSmallSpacing),
+                cosmosView.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
+                
+                // Stick summary below image
+                summary.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: smallSpacing),
+                summary.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: largeSpacing),
+                summary.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor, constant: -smallSpacing),
+                summary.bottomAnchor.constraint(lessThanOrEqualTo: movieDetailView.bottomAnchor, constant: smallSpacing)
+                ])
+        }
     }
 }
