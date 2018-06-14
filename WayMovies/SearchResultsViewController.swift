@@ -9,6 +9,8 @@
 import UIKit
 import Cosmos
 
+let TMDB_apiKey: String = "0de424715a984f077e1ad542e6cfb656"
+
 struct categoryTagText {
     static let movieTag = " MOVIE "
     static let tvTag = " TV SHOW "
@@ -22,6 +24,7 @@ struct categoryTagColor {
 }
 
 struct TVShowOrMovieOrPerson: Decodable {
+    let id: Int
     let media_type: String
     let name: String?
     let title: String?
@@ -81,10 +84,9 @@ class SearchResultsViewController: UIViewController {
     }
     
     // TODO: Refactor this to take in a keyword and search for that category.
-    func getDataFromAPI() {
-        let TMDB_apiKey: String = "0de424715a984f077e1ad542e6cfb656"
+    func APISearchRequest() {
         // let discoverUrl = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(TMDB_apiKey)")
-        //TODO: ASCII MAGIC
+        // ASCII MAGIC
         searchTerm = searchTerm.replacingOccurrences(of: " ", with: "%20")
         let searchURL = URL(string: "https://api.themoviedb.org/3/search/multi?api_key=\(TMDB_apiKey)&query=\(searchTerm)")
         URLSession.shared.dataTask(with: searchURL!) { (data, response, error) in
@@ -128,7 +130,7 @@ class SearchResultsViewController: UIViewController {
         collectionView.register(UINib(nibName: "SearchResultCell", bundle: nil), forCellWithReuseIdentifier: "searchResultCell")
         
         print(searchTerm + " RECEIVED -> VC2")
-        getDataFromAPI()
+        APISearchRequest()
     }
     
     
@@ -144,13 +146,12 @@ class SearchResultsViewController: UIViewController {
 
 extension SearchResultsViewController: UISearchBarDelegate {
     
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
-    {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         // Return if there's no content in the text
         guard searchBar.text != "" else { return }
-        print(searchBar.text! + " VC2 RE-SEARCH")
-        searchTerm = searchBar.text!
-        getDataFromAPI()
+        print(searchText + " AUTOCOMPLETE")
+        searchTerm = searchText
+        APISearchRequest()
     }
 }
 
