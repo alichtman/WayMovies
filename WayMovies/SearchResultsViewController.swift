@@ -11,16 +11,22 @@ import Cosmos
 
 let TMDB_apiKey: String = "0de424715a984f077e1ad542e6cfb656"
 
-struct categoryTagText {
+enum categoryTagText {
     static let movieTag = " MOVIE "
     static let tvTag = " TV SHOW "
     static let personTag = " ACTOR / ACTRESS "
 }
 
-struct categoryTagColor {
+enum categoryTagColor {
     static let movieColor = UIColor.green
     static let tvColor = UIColor.blue
     static let personColor = UIColor.red
+}
+
+enum objType {
+    static let tv: String = "tv"
+    static let movie: String = "movie"
+    static let person: String = "person"
 }
 
 struct TVShowOrMovieOrPerson: Decodable {
@@ -96,14 +102,14 @@ class SearchResultsViewController: UIViewController {
                     print(try JSONSerialization.jsonObject(with: data!))
                     let responseObj = try JSONDecoder().decode(JSONResponse.self, from: data!)
                     
-                    // Remove all results without an image path or without a vote average.
+                    // Remove all results without any image path AND without a vote average.
                     self.displayedResults = responseObj.results.filter {
                         ($0.backdrop_path != nil || $0.poster_path != nil || $0.profile_path != nil) && $0.vote_average != 0
                     }
                     
-                    // Rescale all vote averages
+                    // Rescale all vote averages for non-people objects
                     self.displayedResults = self.displayedResults.map { (result: TVShowOrMovieOrPerson) -> TVShowOrMovieOrPerson in
-                        if result.media_type != "person" {
+                        if result.media_type != objType.person {
                             var mutableResult = result
                             mutableResult.vote_average = self.rescaleRating(rating:  result.vote_average!)
                             return mutableResult
@@ -147,9 +153,8 @@ class SearchResultsViewController: UIViewController {
 extension SearchResultsViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // Return if there's no content in the text
+        // Just return if there's no content in the text
         guard searchBar.text != "" else { return }
-        print(searchText + " AUTOCOMPLETE")
         searchTerm = searchText
         APISearchRequest()
     }
@@ -210,38 +215,26 @@ extension SearchResultsViewController: UICollectionViewDataSource, UICollectionV
             return SearchResultCell()
         }
         
-        // Set both TV and Movie properties
-        if itemForDisplay.media_type == "movie" || itemForDisplay.media_type == "tv" {
-            
-            cosmosView.settings.emptyBorderColor = .clear
-            cosmosView.settings.filledBorderColor = .gray
-            cosmosView.settings.filledBorderWidth = 0.5
-            cosmosView.settings.filledColor = .orange
-            cosmosView.settings.starSize = 30
-            cosmosView.settings.updateOnTouch = false
-            cosmosView.settings.fillMode = .half
-            cosmosView.rating = itemForDisplay.vote_average!
-        }
+        cosmosView.settings.updateOnTouch = false
+        cosmosView.settings.fillMode = .half
+        cosmosView.settings.emptyBorderColor = .clear
+        cosmosView.settings.filledBorderColor = .gray
+        cosmosView.settings.filledBorderWidth = 0.5
+        cosmosView.settings.filledColor = .orange
+        cosmosView.settings.starSize = 30
         
-        // Special movie properties
-        if itemForDisplay.media_type == "movie" {
-            
+        switch itemForDisplay.media_type {
+        case objType.movie:
             cell.categoryTag?.text = categoryTagText.movieTag
             cell.categoryTag?.backgroundColor = categoryTagColor.movieColor
-            
             cell.titleLabel?.text = itemForDisplay.title
-            
-            print(itemForDisplay.title as Any)
-            print(itemForDisplay.popularity)
-            
-        } else if itemForDisplay.media_type == "tv" { // Special TV properties
-            
+            cosmosView.rating = itemForDisplay.vote_average!
+        case objType.tv:
             cell.categoryTag?.text = categoryTagText.tvTag
             cell.categoryTag?.backgroundColor = categoryTagColor.tvColor
             cell.titleLabel?.text = itemForDisplay.name
-            
-        } else { // Special person properties
-            
+            cosmosView.rating = itemForDisplay.vote_average!
+        case objType.person:
             // TODO: Detection of "she"/"her" in the overview with probabilistic decision for "Actor/Actress" tag
             cell.categoryTag?.text = categoryTagText.personTag
             cell.categoryTag?.backgroundColor = categoryTagColor.personColor
@@ -249,9 +242,11 @@ extension SearchResultsViewController: UICollectionViewDataSource, UICollectionV
             print(itemForDisplay.imageURL)
             
             // Don't show stars for people search results
-            cosmosView.settings.emptyBorderColor = .clear
-            cosmosView.settings.filledColor = .clear
+            cosmosView.settings.starSize = 0
+        default:
+            print("Impossible error - if you're seeing this, that's an issue.")
         }
+        
         return cell
     }
 }
