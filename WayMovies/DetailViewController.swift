@@ -57,10 +57,11 @@ class DetailViewController: InteractiveViewController {
         
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
-        title.numberOfLines = 0
         title.textAlignment = .left
         title.textColor = .white
         title.font = UIFont(name: "AvenirNext-Bold", size: 24)
+        title.numberOfLines = 1;
+        title.adjustsFontSizeToFitWidth = true;
         
         let cosmosView = CosmosView()
         // THIS LINE IS IMPORTANT FOR PROGRAMATIC UI CONSTRUCTION
@@ -105,7 +106,12 @@ class DetailViewController: InteractiveViewController {
                         print("API Request for Person Data")
                         print(try JSONSerialization.jsonObject(with: data!))
                         let personData = try JSONDecoder().decode(Person.self, from: data!)
-                        self?.personText = personData.biography
+                        
+                        if personData.biography != "" {
+                            self?.personText = personData.biography
+                        } else {
+                            self?.personText = "No biography data found."
+                        }
                         
                         DispatchQueue.main.async {
                             summary.text = self?.personText

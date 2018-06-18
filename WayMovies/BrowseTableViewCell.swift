@@ -34,9 +34,3 @@ class BrowseTableViewCell: UITableViewCell {
     }
     
 }
-
-extension BrowseTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    
-    
-}
