@@ -92,7 +92,8 @@ class SearchResultsViewController: UIViewController {
     // TODO: Refactor this to take in a keyword and search for that category.
     func APISearchRequest() {
         // let discoverUrl = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(TMDB_apiKey)")
-        // ASCII MAGIC
+        
+        // ASCII magic
         searchTerm = searchTerm.replacingOccurrences(of: " ", with: "%20")
         let searchURL = URL(string: "https://api.themoviedb.org/3/search/multi?api_key=\(TMDB_apiKey)&query=\(searchTerm)")
         URLSession.shared.dataTask(with: searchURL!) { (data, response, error) in
@@ -146,7 +147,6 @@ class SearchResultsViewController: UIViewController {
         print("RESCALED: \(rescale) from \(rating)")
         return rescale
     }
-    
 }
 
 
@@ -168,7 +168,7 @@ extension SearchResultsViewController: UICollectionViewDataSource, UICollectionV
         return self.displayedResults.count
     }
     
-    // TODO: Animation for cell about to come in.
+    // TODO: Animation for cell about to pop in.
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) { }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -222,6 +222,9 @@ extension SearchResultsViewController: UICollectionViewDataSource, UICollectionV
         cosmosView.settings.filledBorderWidth = 0.5
         cosmosView.settings.filledColor = .orange
         cosmosView.settings.starSize = 30
+        
+        cell.titleLabel.numberOfLines = 1;
+        cell.titleLabel.adjustsFontSizeToFitWidth = true;
         
         switch itemForDisplay.media_type {
         case objType.movie:
