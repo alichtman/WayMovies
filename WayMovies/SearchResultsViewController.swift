@@ -31,7 +31,7 @@ enum objType {
 
 struct TVShowOrMovieOrPerson: Decodable {
     let id: Int
-    let media_type: String
+    let media_type: String?
     let name: String?
     let title: String?
     let overview: String?
