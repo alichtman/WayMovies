@@ -25,6 +25,10 @@ enum URLs {
 
 class BrowseViewController: UIViewController {
     
+    var collectionView0: UICollectionView?
+    var collectionView1: UICollectionView?
+    var collectionView2: UICollectionView?
+    
     var inTheatersItems = [TVShowOrMovieOrPerson]()
     var popularAllTimeItems = [TVShowOrMovieOrPerson]()
     var bestThisYearItems = [TVShowOrMovieOrPerson]()
@@ -51,62 +55,62 @@ class BrowseViewController: UIViewController {
     func getBrowseData() {
 
         // Coming Soon Data
-        URLSession.shared.dataTask(with: URLs.inTheaters!) { (data, response, error) in
+        URLSession.shared.dataTask(with: URLs.inTheaters!) { [weak self] (data, response, error) in
             if error == nil {
                 do {
                     print("API Request for Coming Soon Data")
                     print(try JSONSerialization.jsonObject(with: data!))
                     let responseObj = try JSONDecoder().decode(JSONResponse.self, from: data!)
                     print(responseObj)
-                    self.inTheatersItems = self.filterInvalidResponses(responseObj)
+                    self?.inTheatersItems = (self?.filterInvalidResponses(responseObj))!
 
                     // TODO: Rescale all vote averages
-                    print(self.inTheatersItems)
+                    print(self?.inTheatersItems as Any)
                 } catch {
                     print(error)
                 }
                 DispatchQueue.main.async {
-                    // self.collectionView?.reloadData()
+                    self?.collectionView0?.reloadData()
                 }
             }
             }.resume()
         
         // Popular All Time
-        URLSession.shared.dataTask(with: URLs.popularAllTime!) { (data, response, error) in
+        URLSession.shared.dataTask(with: URLs.popularAllTime!) { [weak self] (data, response, error) in
             if error == nil {
                 do {
                     print("API Request for Popular All Time")
                     print(try JSONSerialization.jsonObject(with: data!))
                     let responseObj = try JSONDecoder().decode(JSONResponse.self, from: data!)
                     
-                    self.popularAllTimeItems = self.filterInvalidResponses(responseObj)
+                    self?.popularAllTimeItems = (self?.filterInvalidResponses(responseObj))!
                     // TODO: Rescale all vote averages
-                    print(self.popularAllTimeItems)
+                    print(self?.popularAllTimeItems as Any)
                 } catch {
                     print(error)
                 }
                 DispatchQueue.main.async {
-                    // self.collectionView?.reloadData()
+                    self?.collectionView1?.reloadData()
                 }
             }
             }.resume()
         
         // Best This Year
-        URLSession.shared.dataTask(with: URLs.bestThisYear!) { (data, response, error) in
+        URLSession.shared.dataTask(with: URLs.bestThisYear!) { [weak self] (data, response, error) in
             if error == nil {
                 do {
                     print("API Request for Best This Year")
                     print(try JSONSerialization.jsonObject(with: data!))
                     let responseObj = try JSONDecoder().decode(JSONResponse.self, from: data!)
                     
-                   self.bestThisYearItems = self.filterInvalidResponses(responseObj)
+                    self?.bestThisYearItems = (self?.filterInvalidResponses(responseObj))!
                     // TODO: Rescale all vote averages
-                    print(self.bestThisYearItems)
+                    print(self?.bestThisYearItems as Any)
                 } catch {
                     print(error)
                 }
                 DispatchQueue.main.async {
-                    // self.collectionView?.reloadData()
+                    self?.collectionView2?.reloadData()
                 }
             }
             }.resume()
@@ -115,8 +119,6 @@ class BrowseViewController: UIViewController {
     override func viewDidLoad() {
         print("VIEWDIDLOAD")
         super.viewDidLoad()
-        
-        getBrowseData()
         
 //        let myScrollView = UIScrollView()
 //        myScrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -130,6 +132,7 @@ class BrowseViewController: UIViewController {
         view.addSubview(myStackView)
         
         layout.scrollDirection = UICollectionViewScrollDirection.vertical
+        //layout.itemSize = CGSize(width: 139, height: 145)
         
         let collectionView0 = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView0.translatesAutoresizingMaskIntoConstraints = false
@@ -137,6 +140,8 @@ class BrowseViewController: UIViewController {
         collectionView0.delegate = self
         collectionView0.backgroundColor = .red
         collectionView0.tag = 0
+        collectionView0.reloadData()
+        self.collectionView0 = collectionView0
         
         let collectionView1 = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView1.translatesAutoresizingMaskIntoConstraints = false
@@ -144,6 +149,7 @@ class BrowseViewController: UIViewController {
         collectionView1.delegate = self
         collectionView1.backgroundColor = .white
         collectionView1.tag = 1
+        self.collectionView1 = collectionView1
         
         let collectionView2 = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView2.translatesAutoresizingMaskIntoConstraints = false
@@ -151,6 +157,7 @@ class BrowseViewController: UIViewController {
         collectionView2.delegate = self
         collectionView2.backgroundColor = .blue
         collectionView2.tag = 2
+        self.collectionView2 = collectionView2
         
         let collectionView3 = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView3.translatesAutoresizingMaskIntoConstraints = false
@@ -163,6 +170,8 @@ class BrowseViewController: UIViewController {
         collectionView1.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
         collectionView2.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
         collectionView3.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
+        
+        getBrowseData()
         
         let inTheatresLabel = UILabel()
         inTheatresLabel.text = sectionHeaders.inTheaters
@@ -214,7 +223,9 @@ extension BrowseViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView.tag {
         case 0:
-            return inTheatersItems.count
+            let count = inTheatersItems.count
+            print(count)
+            return count
         case 1:
             return popularAllTimeItems.count
         case 2:
