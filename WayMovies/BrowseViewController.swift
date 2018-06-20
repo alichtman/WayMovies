@@ -12,7 +12,7 @@ import Cosmos
 enum sectionHeaders {
     static let discover: String = " Discover"
     static let inTheaters: String = " In Theaters"
-    static let popularMovies: String = " All-time Popular Movies"
+    static let popularAllTime: String = " All-time Popular Movies"
     static let bestThisYear: String = " Best This Year!"
 }
 
@@ -25,6 +25,8 @@ enum URLs {
 
 class BrowseViewController: UIViewController {
     
+    var imgCache : NSCache<NSURL, UIImage> = NSCache()
+    
     var collectionView0: UICollectionView?
     var collectionView1: UICollectionView?
     var collectionView2: UICollectionView?
@@ -32,8 +34,6 @@ class BrowseViewController: UIViewController {
     var inTheatersItems = [TVShowOrMovieOrPerson]()
     var popularAllTimeItems = [TVShowOrMovieOrPerson]()
     var bestThisYearItems = [TVShowOrMovieOrPerson]()
-    
-    let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     
     public init() {
         print("INIT")
@@ -116,6 +116,29 @@ class BrowseViewController: UIViewController {
             }.resume()
     }
     
+    func createCollectionView(tag: Int) -> UICollectionView {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 139, height: 145)
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.backgroundColor = .white
+        collectionView.tag = tag
+        return collectionView
+    }
+    
+    fileprivate func createLabel(_ text: String) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.textAlignment = .left
+        label.textColor = .white
+        label.font = UIFont(name: "AvenirNext-Bold", size: 24)
+        return label
+    }
+    
     override func viewDidLoad() {
         print("VIEWDIDLOAD")
         super.viewDidLoad()
@@ -127,75 +150,35 @@ class BrowseViewController: UIViewController {
         let myStackView = UIStackView()
         myStackView.translatesAutoresizingMaskIntoConstraints = false
         myStackView.axis = .vertical
-        myStackView.distribution = .equalSpacing
-        myStackView.spacing = 5.0
+        myStackView.distribution = .fill
+        myStackView.spacing = 2.0
         view.addSubview(myStackView)
         
-        layout.scrollDirection = UICollectionViewScrollDirection.vertical
-        //layout.itemSize = CGSize(width: 139, height: 145)
         
-        let collectionView0 = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView0.translatesAutoresizingMaskIntoConstraints = false
-        collectionView0.dataSource = self
-        collectionView0.delegate = self
-        collectionView0.backgroundColor = .red
-        collectionView0.tag = 0
-        collectionView0.reloadData()
-        self.collectionView0 = collectionView0
+        self.collectionView0 = createCollectionView(tag: 0)
+        self.collectionView1 = createCollectionView(tag: 1)
+        self.collectionView2 = createCollectionView(tag: 2)
         
-        let collectionView1 = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView1.translatesAutoresizingMaskIntoConstraints = false
-        collectionView1.dataSource = self
-        collectionView1.delegate = self
-        collectionView1.backgroundColor = .white
-        collectionView1.tag = 1
-        self.collectionView1 = collectionView1
-        
-        let collectionView2 = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView2.translatesAutoresizingMaskIntoConstraints = false
-        collectionView2.dataSource = self
-        collectionView2.delegate = self
-        collectionView2.backgroundColor = .blue
-        collectionView2.tag = 2
-        self.collectionView2 = collectionView2
-        
-        let collectionView3 = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView3.translatesAutoresizingMaskIntoConstraints = false
-        collectionView3.dataSource = self
-        collectionView3.delegate = self
-        collectionView3.backgroundColor = .green
         
         let nib = UINib(nibName: "BrowseCollectionViewCell", bundle: nil)
-        collectionView0.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
-        collectionView1.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
-        collectionView2.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
-        collectionView3.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
+        collectionView0?.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
+        collectionView1?.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
+        collectionView2?.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
         
         getBrowseData()
         
-        let inTheatresLabel = UILabel()
-        inTheatresLabel.text = sectionHeaders.inTheaters
-        inTheatresLabel.textAlignment = .left
-        inTheatresLabel.textColor = .white
+        let inTheatersLabel = createLabel(sectionHeaders.inTheaters)
+        let popularAllTimeLabel = createLabel(sectionHeaders.popularAllTime)
+        let bestThisYearLabel = createLabel(sectionHeaders.bestThisYear)
         
-        let popularAllTimeLabel = UILabel()
-        popularAllTimeLabel.text = sectionHeaders.popularMovies
-        popularAllTimeLabel.textAlignment = .left
-        popularAllTimeLabel.textColor = .white
-        
-        let bestDramaLabel = UILabel()
-        bestDramaLabel.text = sectionHeaders.bestThisYear
-        bestDramaLabel.textAlignment = .left
-        bestDramaLabel.textColor = .white
-        
-        myStackView.addArrangedSubview(inTheatresLabel)
-        myStackView.addArrangedSubview(collectionView0)
+        myStackView.addArrangedSubview(inTheatersLabel)
+        myStackView.addArrangedSubview(collectionView0!)
         
         myStackView.addArrangedSubview(popularAllTimeLabel)
-        myStackView.addArrangedSubview(collectionView1)
+        myStackView.addArrangedSubview(collectionView1!)
         
-        myStackView.addArrangedSubview(bestDramaLabel)
-        myStackView.addArrangedSubview(collectionView2)
+        myStackView.addArrangedSubview(bestThisYearLabel)
+        myStackView.addArrangedSubview(collectionView2!)
         
         let heightConstant: CGFloat = 172
         
@@ -210,11 +193,16 @@ class BrowseViewController: UIViewController {
             myStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             myStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            collectionView0.heightAnchor.constraint(equalToConstant: heightConstant),
-            collectionView1.heightAnchor.constraint(equalToConstant: heightConstant),
-            collectionView2.heightAnchor.constraint(equalToConstant: heightConstant),
-            collectionView3.heightAnchor.constraint(equalToConstant: heightConstant)
+            (collectionView0?.heightAnchor.constraint(equalToConstant: heightConstant))!,
+            (collectionView1?.heightAnchor.constraint(equalToConstant: heightConstant))!,
+            (collectionView2?.heightAnchor.constraint(equalToConstant: heightConstant))!
             ])
+    }
+    
+    func getDataFromUrl(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            completion(data, response, error)
+            }.resume()
     }
 }
     
@@ -236,25 +224,52 @@ extension BrowseViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+    fileprivate func configureCollectionViewCell(collectionView: UICollectionView, indexPath: IndexPath, itemForDisplay: TVShowOrMovieOrPerson) -> BrowseCollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrowseCollectionViewCell", for: indexPath as IndexPath) as! BrowseCollectionViewCell
+        
+        // Title
+        cell.title!.text = itemForDisplay.title
+        
+        // Get image
+        let displayImage = cell.movieImage
+        displayImage?.contentMode = .scaleAspectFill
+        displayImage?.layer.cornerRadius = 30
+        displayImage?.clipsToBounds = true
+        
+        // If movie image in cache, use it
+        if let poster = imgCache.object(forKey: itemForDisplay.imageURL as NSURL) {
+            displayImage?.image = poster
+        } else { // Else, make API request for movie image and update cache
+            
+            getDataFromUrl(url: itemForDisplay.imageURL) { data, response, error in
+                guard let data = data, error == nil else { return }
+                print("Download Finished: " + (response?.suggestedFilename)!)
+                DispatchQueue.main.async() {
+                    let fetchedImg = UIImage(data: data)
+                    displayImage?.image = fetchedImg
+                    self.imgCache.setObject(fetchedImg!, forKey: itemForDisplay.imageURL as NSURL)
+                }
+            }
+        }
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         switch collectionView.tag {
         case 0:
-            print("SET TITLE \(inTheatersItems[indexPath.row])")
-            cell.title!.text = inTheatersItems[indexPath.row].title
+            print("SET TITLE \(String(describing: inTheatersItems[indexPath.row].title))")
+            return configureCollectionViewCell(collectionView: collectionView, indexPath: indexPath, itemForDisplay: inTheatersItems[indexPath.row])
         case 1:
-            print("SET TITLE \(popularAllTimeItems[indexPath.row])")
-            cell.title!.text = popularAllTimeItems[indexPath.row].title
+            print("SET TITLE \(String(describing: popularAllTimeItems[indexPath.row].title))")
+            return configureCollectionViewCell(collectionView: collectionView, indexPath: indexPath, itemForDisplay: popularAllTimeItems[indexPath.row])
         case 2:
-            print("SET TITLE \(bestThisYearItems[indexPath.row])")
-            cell.title!.text = bestThisYearItems[indexPath.row].title
+            print("SET TITLE \(String(describing: bestThisYearItems[indexPath.row]))")
+            return configureCollectionViewCell(collectionView: collectionView, indexPath: indexPath, itemForDisplay: bestThisYearItems[indexPath.row])
         default:
             print("COLLECTION VIEW TAG -- OUT OF BOUNDS ERROR")
+            return UICollectionViewCell()
         }
-        
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

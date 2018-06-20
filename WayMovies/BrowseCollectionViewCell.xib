@@ -44,7 +44,7 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="132" height="59"/>
             <connections>
-                <outlet property="image" destination="uGZ-sG-zFc" id="4fc-2t-9qY"/>
+                <outlet property="movieImage" destination="uGZ-sG-zFc" id="4fc-2t-9qY"/>
                 <outlet property="title" destination="hqu-Uf-eZK" id="7hB-Zw-6oA"/>
             </connections>
             <point key="canvasLocation" x="33.5" y="20.5"/>

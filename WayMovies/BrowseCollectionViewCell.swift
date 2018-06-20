@@ -11,7 +11,7 @@ import Cosmos
 
 class BrowseCollectionViewCell: UICollectionViewCell {
 
-    @IBOutlet weak var image: UIImageView!
+    @IBOutlet weak var movieImage: UIImageView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var stars: CosmosView!
     
