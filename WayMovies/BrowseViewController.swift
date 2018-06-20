@@ -13,7 +13,7 @@ enum sectionHeaders {
     static let discover: String = " Discover"
     static let inTheaters: String = " In Theaters"
     static let popularAllTime: String = " All-time Popular Movies"
-    static let bestThisYear: String = " Best This Year!"
+    static let bestThisYear: String = " Best This Year"
 }
 
 enum URLs {
@@ -119,7 +119,7 @@ class BrowseViewController: UIViewController {
     func createCollectionView(tag: Int) -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 139, height: 145)
+        layout.itemSize = CGSize(width: 190, height: 225)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -134,7 +134,7 @@ class BrowseViewController: UIViewController {
         let label = UILabel()
         label.text = text
         label.textAlignment = .left
-        label.textColor = .white
+        label.textColor = .black
         label.font = UIFont(name: "AvenirNext-Bold", size: 24)
         return label
     }
@@ -143,15 +143,15 @@ class BrowseViewController: UIViewController {
         print("VIEWDIDLOAD")
         super.viewDidLoad()
         
-//        let myScrollView = UIScrollView()
-//        myScrollView.translatesAutoresizingMaskIntoConstraints = false
-//        self.view.addSubview(myScrollView)
+        let myScrollView = UIScrollView()
+        myScrollView.translatesAutoresizingMaskIntoConstraints = false
+        myScrollView.backgroundColor = .white
+        self.view.addSubview(myScrollView)
         
         let myStackView = UIStackView()
         myStackView.translatesAutoresizingMaskIntoConstraints = false
         myStackView.axis = .vertical
-        myStackView.distribution = .fill
-        myStackView.spacing = 2.0
+        myStackView.distribution = .fillEqually
         view.addSubview(myStackView)
         
         
@@ -180,18 +180,18 @@ class BrowseViewController: UIViewController {
         myStackView.addArrangedSubview(bestThisYearLabel)
         myStackView.addArrangedSubview(collectionView2!)
         
-        let heightConstant: CGFloat = 172
+        let heightConstant: CGFloat = 225
         
         NSLayoutConstraint.activate([
-//            myScrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
-//            myScrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-//            myScrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-//            myScrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            myScrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            myScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            myScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            myScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            myStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20),
-            myStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            myStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            myStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            myStackView.topAnchor.constraint(equalTo: myScrollView.topAnchor),
+            myStackView.leadingAnchor.constraint(equalTo: myScrollView.leadingAnchor),
+            myStackView.trailingAnchor.constraint(equalTo: myScrollView.trailingAnchor),
+            myStackView.bottomAnchor.constraint(equalTo: myScrollView.bottomAnchor),
             
             (collectionView0?.heightAnchor.constraint(equalToConstant: heightConstant))!,
             (collectionView1?.heightAnchor.constraint(equalToConstant: heightConstant))!,
@@ -258,13 +258,10 @@ extension BrowseViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         switch collectionView.tag {
         case 0:
-            print("SET TITLE \(String(describing: inTheatersItems[indexPath.row].title))")
             return configureCollectionViewCell(collectionView: collectionView, indexPath: indexPath, itemForDisplay: inTheatersItems[indexPath.row])
         case 1:
-            print("SET TITLE \(String(describing: popularAllTimeItems[indexPath.row].title))")
             return configureCollectionViewCell(collectionView: collectionView, indexPath: indexPath, itemForDisplay: popularAllTimeItems[indexPath.row])
         case 2:
-            print("SET TITLE \(String(describing: bestThisYearItems[indexPath.row]))")
             return configureCollectionViewCell(collectionView: collectionView, indexPath: indexPath, itemForDisplay: bestThisYearItems[indexPath.row])
         default:
             print("COLLECTION VIEW TAG -- OUT OF BOUNDS ERROR")
@@ -290,6 +287,7 @@ extension Date {
         return result
     }
     
+    /// Returns current date - 1 month
     func subtractMonth() -> Date {
         return Calendar.current.date(byAdding: .month, value: -1, to: self)!
     }
