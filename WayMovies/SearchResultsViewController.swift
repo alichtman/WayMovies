@@ -18,9 +18,9 @@ enum categoryTagText {
 }
 
 enum categoryTagColor {
-    static let movieColor = UIColor.cyan
-    static let tvColor = UIColor.blue
-    static let personColor = UIColor.red
+    static let movieColor = UIColor(red: 255/255, green: 140/255, blue: 157/255, alpha: 1)
+    static let tvColor = UIColor(red: 8/255, green: 146/255, blue: 165/255, alpha: 1)
+    static let personColor = UIColor(red: 136/255, green: 162/255, blue: 170/255, alpha: 1)
 }
 
 enum objType {
@@ -225,6 +225,7 @@ extension SearchResultsViewController: UICollectionViewDataSource, UICollectionV
         
         cell.titleLabel.numberOfLines = 1;
         cell.titleLabel.adjustsFontSizeToFitWidth = true;
+        cell.categoryTag?.textAlignment = .center
         
         switch itemForDisplay.media_type {
         case objType.movie:

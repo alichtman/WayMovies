@@ -1,17 +1,27 @@
 ## WayMovies
 
-Movie and TV Show Search App for iOS. Powered by TMDB.
+Movie, TV Show, and Actor/Actress search app for `iOS`. Powered by `TMDB`.
 
-Written in Swift 4.
+Written in `Swift 4`.
 
 #### Previews
 
+**Intro View Controller**
+
 <img src="img/intro.png" alt="drawing" width="200px"/>
-Intro View Controller.
+
+**Search View Controller**
+
 <img src="img/search.png" alt="drawing" width="200px"/>
-Search View Controller.
+
+**Swipe-to-dismiss Detail View Controller**
+
 <img src="img/detail.png" alt="drawing" width="200px"/>
-Swipe-to-dismiss Detail View Controller.
+
+**Browse View Controller**
+
+<img src="img/browse.png" alt="drawing" width="200px"/>
+
 
 #### Features
 
@@ -21,4 +31,4 @@ Swipe-to-dismiss Detail View Controller.
 
 #### Dependencies
 
-+ CosmosView
++ `CosmosView` - Handled by `Carthage`
