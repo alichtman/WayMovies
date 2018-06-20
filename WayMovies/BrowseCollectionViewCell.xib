@@ -30,7 +30,7 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tft-mp-iTp" customClass="CosmosView" customModule="Cosmos">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tft-mp-iTp" customClass="CosmosView" customModule="Cosmos">
                         <rect key="frame" x="0.0" y="136" width="139" height="32"/>
                         <accessibility key="accessibilityConfiguration" identifier="stars"/>
                     </view>

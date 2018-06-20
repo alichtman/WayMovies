@@ -138,6 +138,7 @@ class SearchResultsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "Search"
         resultsSearchBar.delegate = self
         collectionView.dataSource = self
         collectionView.delegate = self

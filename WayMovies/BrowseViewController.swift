@@ -136,7 +136,7 @@ class BrowseViewController: UIViewController {
         return collectionView
     }
     
-    fileprivate func createSectionHeaderLabel(_ text: String, _ font: String, _ fontSize: CGFloat) -> UILabel {
+    fileprivate func createLabel(_ text: String, _ font: String, _ fontSize: CGFloat) -> UILabel {
         let label = UILabel()
         label.text = text
         label.textAlignment = .left
@@ -151,22 +151,25 @@ class BrowseViewController: UIViewController {
         print("VIEWDIDLOAD")
         super.viewDidLoad()
         
+        self.navigationItem.title = "Browse";
+        
         let myScrollView = UIScrollView()
         myScrollView.translatesAutoresizingMaskIntoConstraints = false
         myScrollView.backgroundColor = .white
+        myScrollView.showsVerticalScrollIndicator = false
         self.view.addSubview(myScrollView)
         
         let myStackView = UIStackView()
         myStackView.translatesAutoresizingMaskIntoConstraints = false
         myStackView.axis = .vertical
-        view.addSubview(myStackView)
+        myScrollView.addSubview(myStackView)
         
-        let searchBar = UISearchBar()
-        searchBar.autocorrectionType = .yes
-        searchBar.autocapitalizationType = .words
-        searchBar.barStyle = .default
-        searchBar.searchBarStyle = .minimal
-        view.addSubview(searchBar)
+//        let searchBar = UISearchBar()
+//        searchBar.autocorrectionType = .yes
+//        searchBar.autocapitalizationType = .words
+//        searchBar.barStyle = .default
+//        searchBar.searchBarStyle = .minimal
+//        view.addSubview(searchBar)
         
         self.collectionView0 = createCollectionView(tag: 0)
         self.collectionView1 = createCollectionView(tag: 1)
@@ -180,12 +183,10 @@ class BrowseViewController: UIViewController {
         
         getBrowseData()
         
-        let browseLabel = createSectionHeaderLabel(sectionHeaders.browse, "AvenirNext-Bold", 30)
-        let inTheatersLabel = createSectionHeaderLabel(sectionHeaders.inTheaters, "AvenirNext-Medium", 24)
-        let popularAllTimeLabel = createSectionHeaderLabel(sectionHeaders.popularAllTime, "AvenirNext-Medium", 24)
-        let bestThisYearLabel = createSectionHeaderLabel(sectionHeaders.bestThisYear, "AvenirNext-Medium", 24)
+        let inTheatersLabel = createLabel(sectionHeaders.inTheaters, "AvenirNext-Bold", 25)
+        let popularAllTimeLabel = createLabel(sectionHeaders.popularAllTime, "AvenirNext-Bold", 25)
+        let bestThisYearLabel = createLabel(sectionHeaders.bestThisYear, "AvenirNext-Bold", 25)
         
-        myStackView.addArrangedSubview(browseLabel)
         myStackView.addArrangedSubview(inTheatersLabel)
         myStackView.addArrangedSubview(collectionView0!)
         myStackView.addArrangedSubview(popularAllTimeLabel)
@@ -193,28 +194,24 @@ class BrowseViewController: UIViewController {
         myStackView.addArrangedSubview(bestThisYearLabel)
         myStackView.addArrangedSubview(collectionView2!)
         
+        let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height)!
         let heightConstant: CGFloat = 200
-        let topPadding: CGFloat = 30
-        let titlePadding: CGFloat = 40
+        let topPadding: CGFloat = 15
         let titleHeight: CGFloat = 25
         
         NSLayoutConstraint.activate([
-            myScrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            myScrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: navBarHeight),
             myScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             myScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             myScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            searchBar.topAnchor.constraint(equalTo: myScrollView.topAnchor, constant: topPadding),
-            searchBar.heightAnchor.constraint(equalToConstant: titleHeight),
-            
-            myStackView.topAnchor.constraint(equalTo: searchBar.topAnchor, constant: topPadding),
+            myStackView.widthAnchor.constraint(equalToConstant: view.frame.width),
+            myStackView.topAnchor.constraint(equalTo: myScrollView.topAnchor, constant: topPadding),
             myStackView.leadingAnchor.constraint(equalTo: myScrollView.leadingAnchor),
             myStackView.trailingAnchor.constraint(equalTo: myScrollView.trailingAnchor),
             myStackView.bottomAnchor.constraint(equalTo: myScrollView.bottomAnchor),
             
-            browseLabel.heightAnchor.constraint(equalToConstant: titleHeight),
             inTheatersLabel.heightAnchor.constraint(equalToConstant: titleHeight),
-            inTheatersLabel.topAnchor.constraint(equalTo: browseLabel.bottomAnchor, constant: titlePadding),
             popularAllTimeLabel.heightAnchor.constraint(equalToConstant: titleHeight),
             bestThisYearLabel.heightAnchor.constraint(equalToConstant: titleHeight),
             
@@ -331,21 +328,3 @@ extension Date {
         return Calendar.current.date(byAdding: .month, value: -1, to: self)!
     }
 }
-
-//extension BrowseViewController: UISearchBarDelegate {
-//
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
-//    {
-//        // Return if there's no content in the text
-//        guard searchBar.text != "" else { return }
-//        print(searchBar.text! + "VC1")
-//        self.performSegue(withIdentifier: "search", sender: self)
-//    }
-//
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "search" {
-//            let searchVC: SearchResultsViewController = segue.destination as! SearchResultsViewController
-//            searchVC.searchTerm = searchBar.text!
-//        }
-//    }
-//}
