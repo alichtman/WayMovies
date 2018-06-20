@@ -7,11 +7,11 @@ Written in Swift 4.
 #### Previews
 
 <img src="img/intro.png" alt="drawing" width="200px"/>
-Splash screen.
+Intro View Controller.
 <img src="img/search.png" alt="drawing" width="200px"/>
-Search screen.
+Search View Controller.
 <img src="img/detail.png" alt="drawing" width="200px"/>
-Swipe-to-dismiss detail card.
+Swipe-to-dismiss Detail View Controller.
 
 #### Features
 
