@@ -18,7 +18,7 @@ enum categoryTagText {
 }
 
 enum categoryTagColor {
-    static let movieColor = UIColor.green
+    static let movieColor = UIColor.cyan
     static let tvColor = UIColor.blue
     static let personColor = UIColor.red
 }
