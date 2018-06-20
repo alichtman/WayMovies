@@ -10,9 +10,10 @@ import UIKit
 import Cosmos
 
 enum sectionHeaders {
+    static let browse: String = " Browse"
     static let discover: String = " Discover"
     static let inTheaters: String = " In Theaters"
-    static let popularAllTime: String = " All-time Popular Movies"
+    static let popularAllTime: String = " All-Time Popular Movies"
     static let bestThisYear: String = " Best This Year"
 }
 
@@ -117,11 +118,16 @@ class BrowseViewController: UIViewController {
     }
     
     func createCollectionView(tag: Int) -> UICollectionView {
+        let inset: CGFloat = 8
+        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 190, height: 225)
+        layout.itemSize = CGSize(width: 142, height: 195)
+        layout.sectionInset = UIEdgeInsetsMake(inset, inset, inset, inset);
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -130,12 +136,14 @@ class BrowseViewController: UIViewController {
         return collectionView
     }
     
-    fileprivate func createLabel(_ text: String) -> UILabel {
+    fileprivate func createSectionHeaderLabel(_ text: String, _ font: String, _ fontSize: CGFloat) -> UILabel {
         let label = UILabel()
         label.text = text
         label.textAlignment = .left
         label.textColor = .black
-        label.font = UIFont(name: "AvenirNext-Bold", size: 24)
+        label.font = UIFont(name: font, size: fontSize)
+        label.numberOfLines = 1;
+        label.adjustsFontSizeToFitWidth = true;
         return label
     }
     
@@ -151,9 +159,14 @@ class BrowseViewController: UIViewController {
         let myStackView = UIStackView()
         myStackView.translatesAutoresizingMaskIntoConstraints = false
         myStackView.axis = .vertical
-        myStackView.distribution = .fillEqually
         view.addSubview(myStackView)
         
+        let searchBar = UISearchBar()
+        searchBar.autocorrectionType = .yes
+        searchBar.autocapitalizationType = .words
+        searchBar.barStyle = .default
+        searchBar.searchBarStyle = .minimal
+        view.addSubview(searchBar)
         
         self.collectionView0 = createCollectionView(tag: 0)
         self.collectionView1 = createCollectionView(tag: 1)
@@ -167,20 +180,23 @@ class BrowseViewController: UIViewController {
         
         getBrowseData()
         
-        let inTheatersLabel = createLabel(sectionHeaders.inTheaters)
-        let popularAllTimeLabel = createLabel(sectionHeaders.popularAllTime)
-        let bestThisYearLabel = createLabel(sectionHeaders.bestThisYear)
+        let browseLabel = createSectionHeaderLabel(sectionHeaders.browse, "AvenirNext-Bold", 30)
+        let inTheatersLabel = createSectionHeaderLabel(sectionHeaders.inTheaters, "AvenirNext-Medium", 24)
+        let popularAllTimeLabel = createSectionHeaderLabel(sectionHeaders.popularAllTime, "AvenirNext-Medium", 24)
+        let bestThisYearLabel = createSectionHeaderLabel(sectionHeaders.bestThisYear, "AvenirNext-Medium", 24)
         
+        myStackView.addArrangedSubview(browseLabel)
         myStackView.addArrangedSubview(inTheatersLabel)
         myStackView.addArrangedSubview(collectionView0!)
-        
         myStackView.addArrangedSubview(popularAllTimeLabel)
         myStackView.addArrangedSubview(collectionView1!)
-        
         myStackView.addArrangedSubview(bestThisYearLabel)
         myStackView.addArrangedSubview(collectionView2!)
         
-        let heightConstant: CGFloat = 225
+        let heightConstant: CGFloat = 200
+        let topPadding: CGFloat = 30
+        let titlePadding: CGFloat = 40
+        let titleHeight: CGFloat = 25
         
         NSLayoutConstraint.activate([
             myScrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -188,10 +204,19 @@ class BrowseViewController: UIViewController {
             myScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             myScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            myStackView.topAnchor.constraint(equalTo: myScrollView.topAnchor),
+            searchBar.topAnchor.constraint(equalTo: myScrollView.topAnchor, constant: topPadding),
+            searchBar.heightAnchor.constraint(equalToConstant: titleHeight),
+            
+            myStackView.topAnchor.constraint(equalTo: searchBar.topAnchor, constant: topPadding),
             myStackView.leadingAnchor.constraint(equalTo: myScrollView.leadingAnchor),
             myStackView.trailingAnchor.constraint(equalTo: myScrollView.trailingAnchor),
             myStackView.bottomAnchor.constraint(equalTo: myScrollView.bottomAnchor),
+            
+            browseLabel.heightAnchor.constraint(equalToConstant: titleHeight),
+            inTheatersLabel.heightAnchor.constraint(equalToConstant: titleHeight),
+            inTheatersLabel.topAnchor.constraint(equalTo: browseLabel.bottomAnchor, constant: titlePadding),
+            popularAllTimeLabel.heightAnchor.constraint(equalToConstant: titleHeight),
+            bestThisYearLabel.heightAnchor.constraint(equalToConstant: titleHeight),
             
             (collectionView0?.heightAnchor.constraint(equalToConstant: heightConstant))!,
             (collectionView1?.heightAnchor.constraint(equalToConstant: heightConstant))!,
@@ -251,6 +276,20 @@ extension BrowseViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 }
             }
         }
+        
+        // Rescale rating and set cosmos view
+        guard let cosmosView = cell.stars else {
+            return BrowseCollectionViewCell()
+        }
+        
+        cosmosView.settings.updateOnTouch = false
+        cosmosView.settings.fillMode = .half
+        cosmosView.settings.emptyBorderColor = .clear
+        cosmosView.settings.filledColor = .orange
+        cosmosView.settings.starSize = 18
+        cosmosView.settings.starMargin = 2
+        cosmosView.rating = rescaleRating(rating: itemForDisplay.vote_average!)
+        
         return cell
     }
     
@@ -292,3 +331,21 @@ extension Date {
         return Calendar.current.date(byAdding: .month, value: -1, to: self)!
     }
 }
+
+//extension BrowseViewController: UISearchBarDelegate {
+//
+//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
+//    {
+//        // Return if there's no content in the text
+//        guard searchBar.text != "" else { return }
+//        print(searchBar.text! + "VC1")
+//        self.performSegue(withIdentifier: "search", sender: self)
+//    }
+//
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "search" {
+//            let searchVC: SearchResultsViewController = segue.destination as! SearchResultsViewController
+//            searchVC.searchTerm = searchBar.text!
+//        }
+//    }
+//}

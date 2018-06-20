@@ -74,6 +74,13 @@ struct DetailsObject {
     let image: UIImage
 }
 
+/// Rescale scores from a scale of 0 -> 10 to 0 -> 5
+func rescaleRating(rating: Double) -> Double {
+    let rescale: Double = round(rating) / 2
+    print("RESCALED: \(rescale) from \(rating)")
+    return rescale
+}
+
 class SearchResultsViewController: UIViewController {
     
     var imgCache : NSCache<NSURL, UIImage> = NSCache()
@@ -112,7 +119,7 @@ class SearchResultsViewController: UIViewController {
                     self.displayedResults = self.displayedResults.map { (result: TVShowOrMovieOrPerson) -> TVShowOrMovieOrPerson in
                         if result.media_type != objType.person {
                             var mutableResult = result
-                            mutableResult.vote_average = self.rescaleRating(rating:  result.vote_average!)
+                            mutableResult.vote_average = rescaleRating(rating:  result.vote_average!)
                             return mutableResult
                         } else {
                             return result
@@ -138,14 +145,6 @@ class SearchResultsViewController: UIViewController {
         
         print(searchTerm + " RECEIVED -> VC2")
         APISearchRequest()
-    }
-    
-    
-    /// Rescale scores from a scale of 0 -> 10 to 0 -> 5
-    func rescaleRating(rating: Double) -> Double {
-        let rescale: Double = round(rating) / 2
-        print("RESCALED: \(rescale) from \(rating)")
-        return rescale
     }
 }
 
