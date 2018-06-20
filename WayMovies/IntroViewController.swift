@@ -49,6 +49,7 @@ class IntroViewController: UIViewController, UISearchBarDelegate {
     
     // "I just want to browse" button clicked.
     @IBAction func goToBrowse(_ sender: UIButton) {
-        
+        let browseViewController = BrowseViewController()
+        present(browseViewController, animated: true, completion: nil)
     }
 }
