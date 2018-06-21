@@ -74,8 +74,12 @@ class DetailViewController: InteractiveViewController {
         let summary = UILabel()
         summary.translatesAutoresizingMaskIntoConstraints = false
         summary.numberOfLines = 0
+        summary.lineBreakMode = .byWordWrapping
         summary.textAlignment = .left
         summary.font = UIFont(name: "AvenirNext-Light", size: 14)
+        
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         switch detailObject.data.media_type {
         case objType.movie:
@@ -130,7 +134,8 @@ class DetailViewController: InteractiveViewController {
         movieDetailView.addSubview(categoryTag)
         movieDetailView.addSubview(title)
         movieDetailView.addSubview(cosmosView)
-        movieDetailView.addSubview(summary)
+        movieDetailView.addSubview(scrollView)
+        scrollView.addSubview(summary)
         
         let xxSmallSpacing: CGFloat = 2
         let xSmallSpacing: CGFloat = 4
@@ -163,11 +168,26 @@ class DetailViewController: InteractiveViewController {
             cosmosView.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: xSmallSpacing),
             cosmosView.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor),
             
-            // Stick summary below image
-            summary.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: smallSpacing),
-            summary.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: largeSpacing),
-            summary.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor, constant: -smallSpacing),
-            summary.bottomAnchor.constraint(lessThanOrEqualTo: movieDetailView.bottomAnchor, constant: smallSpacing)
+            // Stick scrollview below image
+            scrollView.topAnchor.constraint(equalTo: movieImage.bottomAnchor, constant: smallSpacing),
+            scrollView.leadingAnchor.constraint(equalTo: movieDetailView.leadingAnchor, constant: largeSpacing),
+            scrollView.trailingAnchor.constraint(equalTo: movieDetailView.trailingAnchor, constant: -smallSpacing),
+            scrollView.bottomAnchor.constraint(lessThanOrEqualTo: movieDetailView.bottomAnchor, constant: -smallSpacing),
+            
+            // Stick summary in scrollview
+            summary.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            summary.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            summary.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            summary.bottomAnchor.constraint(lessThanOrEqualTo: scrollView.bottomAnchor),
+            summary.widthAnchor.constraint(equalToConstant: 250) 
             ])
     }
+    
+//    let layoutFlag = false
+//
+//    override func viewDidLayoutSubviews() {
+//        if !layoutFlag {
+//            summ
+//        }
+//    }
 }
