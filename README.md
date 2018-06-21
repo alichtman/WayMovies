@@ -32,3 +32,4 @@ Written in `Swift 4`.
 #### Dependencies
 
 + `CosmosView` - Handled by `Carthage`
+
