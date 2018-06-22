@@ -28,9 +28,9 @@ class BrowseViewController: UIViewController {
     
     var imgCache : NSCache<NSURL, UIImage> = NSCache()
     
-    var collectionView0: UICollectionView?
-    var collectionView1: UICollectionView?
-    var collectionView2: UICollectionView?
+    var collectionView0 = UICollectionView()
+    var collectionView1 = UICollectionView()
+    var collectionView2 = UICollectionView()
     
     var inTheatersItems = [TVShowOrMovieOrPerson]()
     var popularAllTimeItems = [TVShowOrMovieOrPerson]()
@@ -70,7 +70,7 @@ class BrowseViewController: UIViewController {
                     print(error)
                 }
                 DispatchQueue.main.async {
-                    self?.collectionView0?.reloadData()
+                    self?.collectionView0.reloadData()
                 }
             }
             }.resume()
@@ -90,7 +90,7 @@ class BrowseViewController: UIViewController {
                     print(error)
                 }
                 DispatchQueue.main.async {
-                    self?.collectionView1?.reloadData()
+                    self?.collectionView1.reloadData()
                 }
             }
             }.resume()
@@ -110,7 +110,7 @@ class BrowseViewController: UIViewController {
                     print(error)
                 }
                 DispatchQueue.main.async {
-                    self?.collectionView2?.reloadData()
+                    self?.collectionView2.reloadData()
                 }
             }
             }.resume()
@@ -168,9 +168,9 @@ class BrowseViewController: UIViewController {
         
         
         let nib = UINib(nibName: "BrowseCollectionViewCell", bundle: nil)
-        collectionView0?.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
-        collectionView1?.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
-        collectionView2?.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
+        collectionView0.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
+        collectionView1.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
+        collectionView2.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
         
         getBrowseData()
         
@@ -179,11 +179,11 @@ class BrowseViewController: UIViewController {
         let bestThisYearLabel = createLabel(sectionHeaders.bestThisYear, "AvenirNext-Bold", 25)
         
         myStackView.addArrangedSubview(inTheatersLabel)
-        myStackView.addArrangedSubview(collectionView0!)
+        myStackView.addArrangedSubview(collectionView0)
         myStackView.addArrangedSubview(popularAllTimeLabel)
-        myStackView.addArrangedSubview(collectionView1!)
+        myStackView.addArrangedSubview(collectionView1)
         myStackView.addArrangedSubview(bestThisYearLabel)
-        myStackView.addArrangedSubview(collectionView2!)
+        myStackView.addArrangedSubview(collectionView2)
         
         let navBarHeight: CGFloat = (self.navigationController?.navigationBar.frame.height)!
         let heightConstant: CGFloat = 200
@@ -206,9 +206,9 @@ class BrowseViewController: UIViewController {
             popularAllTimeLabel.heightAnchor.constraint(equalToConstant: titleHeight),
             bestThisYearLabel.heightAnchor.constraint(equalToConstant: titleHeight),
             
-            (collectionView0?.heightAnchor.constraint(equalToConstant: heightConstant))!,
-            (collectionView1?.heightAnchor.constraint(equalToConstant: heightConstant))!,
-            (collectionView2?.heightAnchor.constraint(equalToConstant: heightConstant))!
+            collectionView0.heightAnchor.constraint(equalToConstant: heightConstant),
+            collectionView1.heightAnchor.constraint(equalToConstant: heightConstant),
+            collectionView2.heightAnchor.constraint(equalToConstant: heightConstant)
             ])
     }
     
