@@ -18,10 +18,11 @@ enum sectionHeaders {
 }
 
 enum URLs {
-    static let discover = URL(string: "https://api.themoviedb.org/3/discover/movie?api_key=\(TMDB_apiKey)")
-    static let inTheaters = URL(string: "https://api.themoviedb.org/3/discover/movie?primary_release_date.gte=\(Date().subtractMonth().stringRepresentation())&primary_release_date.lte=\(Date().stringRepresentation())&api_key=\(TMDB_apiKey)")
-    static let popularAllTime = URL(string: "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=\(TMDB_apiKey)")
-    static let bestThisYear = URL(string: "https://api.themoviedb.org/3/discover/movie?primary_release_year=\(Date().stringRepresentation().prefix(4))&sort_by=vote_average.desc&api_key=\(TMDB_apiKey)")
+    static let base: String = "https://api.themoviedb.org/3/discover/movie"
+    static let discover = URL(string: "\(base)?api_key=\(TMDB_apiKey)")
+    static let inTheaters = URL(string: "\(base)?primary_release_date.gte=\(Date().subtractMonth().stringRepresentation())&primary_release_date.lte=\(Date().stringRepresentation())&api_key=\(TMDB_apiKey)")
+    static let popularAllTime = URL(string: "\(base)?sort_by=popularity.desc&api_key=\(TMDB_apiKey)")
+    static let bestThisYear = URL(string: "\(base)?primary_release_year=\(Date().stringRepresentation().prefix(4))&sort_by=vote_average.desc&api_key=\(TMDB_apiKey)")
 }
 
 class BrowseViewController: UIViewController {
@@ -125,7 +126,6 @@ class BrowseViewController: UIViewController {
         layout.sectionInset = UIEdgeInsetsMake(inset, inset, inset, inset);
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
@@ -165,7 +165,6 @@ class BrowseViewController: UIViewController {
         self.collectionView0 = createCollectionView(tag: 0)
         self.collectionView1 = createCollectionView(tag: 1)
         self.collectionView2 = createCollectionView(tag: 2)
-        
         
         let nib = UINib(nibName: "BrowseCollectionViewCell", bundle: nil)
         collectionView0.register(nib, forCellWithReuseIdentifier: "BrowseCollectionViewCell")
@@ -277,7 +276,7 @@ extension BrowseViewController: UICollectionViewDelegate, UICollectionViewDataSo
         cosmosView.settings.starSize = 18
         cosmosView.settings.starMargin = 2
         cosmosView.rating = rescaleRating(rating: itemForDisplay.vote_average!)
-        
+
         return cell
     }
     
