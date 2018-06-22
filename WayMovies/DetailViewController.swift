@@ -17,13 +17,10 @@ class DetailViewController: InteractiveViewController {
     
     var detailObject: DetailsObject
     
-    var personText: String?
-    
     init(movieDetail: DetailsObject) {
         self.detailObject = movieDetail
         super.init(nibName: nil, bundle: nil)
     }
-    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -31,7 +28,36 @@ class DetailViewController: InteractiveViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setUpView()
+    }
+    
+    private func fetchPersonSummaryData(completion: @escaping (String) -> ()) {
+        // Get person summary data
+        let searchURL = URL(string: "https://api.themoviedb.org/3/person/\(detailObject.data.id)?api_key=\(TMDB_apiKey)")
+        URLSession.shared.dataTask(with: searchURL!) { (data, response, error) in
+            if error == nil {
+                do {
+                    print("API Request for Person Data")
+                    print(try JSONSerialization.jsonObject(with: data!))
+                    let personData = try JSONDecoder().decode(Person.self, from: data!)
+                    
+                    var personText: String
+                    if personData.biography != "" {
+                        personText = personData.biography
+                    } else {
+                        personText = "No biography data found."
+                    }
+                    
+                    completion(personText)
+                    
+                } catch {
+                    print(error)
+                }
+            }
+            }.resume()
+    }
+    
+    fileprivate func setUpView() {
         let cornerRadiusConstant : CGFloat = CGFloat(15)
         
         let movieDetailView = UIView()
@@ -98,31 +124,11 @@ class DetailViewController: InteractiveViewController {
             title.text = detailObject.data.name
             cosmosView.settings.starSize = 0
             
-            // Get person summary data
-            let searchURL = URL(string: "https://api.themoviedb.org/3/person/\(detailObject.data.id)?api_key=\(TMDB_apiKey)")
-            URLSession.shared.dataTask(with: searchURL!) { [weak self] (data, response, error) in
-                if error == nil {
-                    do {
-                        print("API Request for Person Data")
-                        print(try JSONSerialization.jsonObject(with: data!))
-                        let personData = try JSONDecoder().decode(Person.self, from: data!)
-                        
-                        if personData.biography != "" {
-                            self?.personText = personData.biography
-                        } else {
-                            self?.personText = "No biography data found."
-                        }
-                        
-                        DispatchQueue.main.async {
-                            summary.text = self?.personText
-                        }
-                    } catch {
-                        print(error)
-                    }
+            fetchPersonSummaryData() { text in
+                DispatchQueue.main.async {
+                    summary.text = text
                 }
-                }.resume()
-            
-            
+            }
         default:
             print("IMPOSSIBLE ERROR")
         }
