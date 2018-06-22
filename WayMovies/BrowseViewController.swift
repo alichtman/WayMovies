@@ -28,9 +28,9 @@ class BrowseViewController: UIViewController {
     
     var imgCache : NSCache<NSURL, UIImage> = NSCache()
     
-    var collectionView0 = UICollectionView()
-    var collectionView1 = UICollectionView()
-    var collectionView2 = UICollectionView()
+    var collectionView0 = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    var collectionView1 = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    var collectionView2 = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     
     var inTheatersItems = [TVShowOrMovieOrPerson]()
     var popularAllTimeItems = [TVShowOrMovieOrPerson]()
