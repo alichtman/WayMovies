@@ -37,7 +37,6 @@ class BrowseViewController: UIViewController {
     var bestThisYearItems = [TVShowOrMovieOrPerson]()
     
     public init() {
-        print("INIT")
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -148,7 +147,6 @@ class BrowseViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        print("VIEWDIDLOAD")
         super.viewDidLoad()
         
         self.navigationItem.title = "Browse";
@@ -163,13 +161,6 @@ class BrowseViewController: UIViewController {
         myStackView.translatesAutoresizingMaskIntoConstraints = false
         myStackView.axis = .vertical
         myScrollView.addSubview(myStackView)
-        
-//        let searchBar = UISearchBar()
-//        searchBar.autocorrectionType = .yes
-//        searchBar.autocapitalizationType = .words
-//        searchBar.barStyle = .default
-//        searchBar.searchBarStyle = .minimal
-//        view.addSubview(searchBar)
         
         self.collectionView0 = createCollectionView(tag: 0)
         self.collectionView1 = createCollectionView(tag: 1)
@@ -246,7 +237,7 @@ extension BrowseViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
     }
     
-    fileprivate func configureCollectionViewCell(collectionView: UICollectionView, indexPath: IndexPath, itemForDisplay: TVShowOrMovieOrPerson) -> BrowseCollectionViewCell {
+    private func configureCollectionViewCell(collectionView: UICollectionView, indexPath: IndexPath, itemForDisplay: TVShowOrMovieOrPerson) -> BrowseCollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrowseCollectionViewCell", for: indexPath as IndexPath) as! BrowseCollectionViewCell
         
         // Title
@@ -305,6 +296,7 @@ extension BrowseViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
     }
     
+    /// TODO: Pop up a Detail View on press
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //        print("Num: \(collectionView[indexPath.row])")
 //        print("Value: \(myArray[indexPath.row])")
